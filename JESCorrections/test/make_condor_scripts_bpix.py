@@ -4,7 +4,7 @@ import os
 #input_directory = "/eos/user/t/tchatzis/JRA_NTuples_Winter24"
 input_directory = "/eos/user/b/blehtela/JRA_NTuples_Winter24"
 #logfile_directory = os.environ['CMSSW_BASE']+'/src/blehtela-forks/JMETriggerAnalysis/JESCorrections/test/htc_out_2024'
-logfile_dirname = "htc_out_2024"
+logfile_dirname = "htc_out_2024_test13jan2025"
 
 #bpix_categories = ['noBPix','BPix','BPixPlus','BPixMinus']
 bpix_categories = ['noBPix','BPix'] #try with only two now, maybe jobs ran too long
