@@ -1645,7 +1645,7 @@ void JMETriggerAnalysisDriver::fillHistograms_MET(const std::string& dir,
   
   // in case muons exist in the data calculate also METNoMu
   float ptNoMu(0.0);
-  if (v_muPt->size()>0){
+  if (v_muPt){
     auto const muonPt(v_muPt->at(0));
     auto const muonPhi(v_muPhi->at(0));
     
