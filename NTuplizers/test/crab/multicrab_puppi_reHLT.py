@@ -91,8 +91,9 @@ config.section_('JobType')
 config.JobType.pluginName  = 'Analysis'
 config.JobType.psetName = input_file_dir+'jmeTriggerNTuple_cfg.py' # ADJUST as needed!
 
-config.JobType.maxMemoryMB = 2500
+config.JobType.maxMemoryMB = 5000 #2500
 config.JobType.allowUndistributedCMSSW = True
+config.JobType.numCores = 1 #because if have this in the CMSSW PSet (see jmeTriggerNTuple_cfg.py file), could leave it out in both
 
 config.section_('Data')
 config.Data.publication = False
@@ -116,8 +117,8 @@ def submit(config):
 for primary_dataset,secondary_dataset in zip(primary_dataset_list, secondary_dataset_list):
     for reco in recoOptions:
         config.JobType.pyCfgParams = ['reco='+reco]
-        #output_requestName = job_name+'_'+getOutputName(primary_dataset.split('/')[2])+reco
-        output_requestName = job_name+'_'+primary_dataset+'_'+reco
+        output_requestName = job_name+'_'+getOutputName(primary_dataset.split('/')[2])+reco
+        #output_requestName = job_name+'_'+primary_dataset+'_'+reco #too long?
         config.General.requestName = output_requestName
         config.Data.outLFNDirBase = '/store/user/%s/%s/%s'%(getUsername(),job_name,output_requestName)
         config.Data.inputDataset = primary_dataset
@@ -133,7 +134,7 @@ for primary_dataset,secondary_dataset in zip(primary_dataset_list, secondary_dat
         print(reco)
         print(f"{primary_dataset} \n {secondary_dataset}")
         # needed to be able to use pyCfgParams 
-        #p = Process(target=submit, args=(config,))
-        #p.start()
-        #p.join()
+        p = Process(target=submit, args=(config,))
+        p.start()
+        p.join()
 

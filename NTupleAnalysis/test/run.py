@@ -196,6 +196,7 @@ if __name__ == '__main__':
           print('-'*50)
 
        analyzer.setInputTTree(i_inpFile, i_inpTree)
+       print("After setting the input TTree.")
        analyzer.process(skipEvents, i_maxEvents)
 
    nEvtProcessed = analyzer.eventsProcessed()

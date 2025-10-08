@@ -126,13 +126,16 @@ void JMETriggerAnalysisDriverRun3::init(){
                                                  
   labelMap_jetAK4_.clear();
   labelMap_jetAK4_ = {
-    {"ak4GenJetsNoNu"                ,{{"hltCaloCorr", "hltAK4CaloJetsCorrected"},{"hltPFCorr", "hltAK4PFJetsCorrected"},{"offlPFPuppiCorr", "offlineAK4PFPuppiJetsCorrected"}}},
-    {"ak4GenJetsNoNu"                ,{{"hltCalo", "hltAK4CaloJets"},{"hltPF", "hltAK4PFJets"}}},
-    {"hltAK4CaloJetsCorrected"              , {{"GEN", "ak4GenJetsNoNu"},{"Offline", "offlineAK4PFPuppiJetsCorrected"}}},
-    {"hltAK4CaloJets"                       , {{"GEN", "ak4GenJetsNoNu"},{"Offline", "offlineAK4PFPuppiJetsCorrected"}}},
-    {"hltAK4PFJetsCorrected"       , {{"GEN", "ak4GenJetsNoNu"},{"Offline", "offlineAK4PFPuppiJetsCorrected"}}},
-    {"hltAK4PFJets"                , {{"GEN", "ak4GenJetsNoNu"},{"Offline", "offlineAK4PFPuppiJetsCorrected"}}},
-    {"offlineAK4PFPuppiJetsCorrected"                ,{{"hltCaloCorr", "hltAK4CaloJetsCorrected"},{"hltPFCorr", "hltAK4PFJetsCorrected"}}},
+    {"ak4GenJetsNoNu"                   ,{{"hltCaloCorr", "hltAK4CaloJetsCorrected"},{"hltPFCorr", "hltAK4PFJetsCorrected"},{"offlPFPuppiCorr", "offlineAK4PFPuppiJetsCorrected"},
+                                            {"hltCalo", "hltAK4CaloJets"},{"hltPF", "hltAK4PFJets"}, {"hltPuppi", "hltAK4PFPuppiJets"},{"hltPuppiCorr", "hltAK4PFPuppiJetsCorrected"}}}, // added puppi references
+    {"hltAK4CaloJetsCorrected"          , {{"GEN", "ak4GenJetsNoNu"},{"Offline", "offlineAK4PFPuppiJetsCorrected"}}},
+    {"hltAK4CaloJets"                   , {{"GEN", "ak4GenJetsNoNu"},{"Offline", "offlineAK4PFPuppiJetsCorrected"}}},
+    {"hltAK4PFJetsCorrected"            , {{"GEN", "ak4GenJetsNoNu"},{"Offline", "offlineAK4PFPuppiJetsCorrected"}}},
+    {"hltAK4PFJets"                     , {{"GEN", "ak4GenJetsNoNu"},{"Offline", "offlineAK4PFPuppiJetsCorrected"}}},
+    {"offlineAK4PFPuppiJetsCorrected"       ,{{"hltCaloCorr", "hltAK4CaloJetsCorrected"},{"hltPFCorr", "hltAK4PFJetsCorrected"}, {"hltPuppi", "hltAK4PFPuppiJets"},{"hltPuppiCorr", "hltAK4PFPuppiJetsCorrected"}}}, // added puppi references
+
+    {"hltAK4PFPuppiJets"                , {{"GEN", "ak4GenJetsNoNu"},{"Offline", "offlineAK4PFPuppiJetsCorrected"}}}, //added for puppi path (19.09.2025)
+    {"hltAK4PFPuppiJetsCorrected"       , {{"GEN", "ak4GenJetsNoNu"},{"Offline", "offlineAK4PFPuppiJetsCorrected"}}}, //added for puppi path (19.09.2025)
   };
 
   labelMap_jetAK8_.clear();

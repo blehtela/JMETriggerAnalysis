@@ -9,8 +9,9 @@ source env.sh
 #                                            | |              
 #                                            |_|              
 # Default values
-OUT_EOS_DIR="/DPNoteSubmitter/"
-OUTPUT_FILE_NAME="data"
+#OUT_EOS_DIR="/DPNoteSubmitter/"
+OUT_EOS_DIR="/jmetrigger/PuppiTriggerAnalysisSubmitterV2/"
+OUTPUT_FILE_NAME="dataharvested"
 SKIP_HARVEST=false
 
 # Parse arguments

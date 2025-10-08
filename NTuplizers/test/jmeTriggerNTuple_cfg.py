@@ -359,10 +359,10 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
 
 
   patJetCollections = cms.PSet(
-
-    #offlineAK4PFCHSJetsCorrected = cms.InputTag('slimmedJets'),
-    #offlineAK4PFPuppiJetsCorrected = cms.InputTag('slimmedJetsPuppi'),
-    #offlineAK8PFPuppiJetsCorrected = cms.InputTag('slimmedJetsAK8'),
+    #keep also the offline jet collections (19.09.2025)
+    offlineAK4PFCHSJetsCorrected = cms.InputTag('slimmedJets'),
+    offlineAK4PFPuppiJetsCorrected = cms.InputTag('slimmedJetsPuppi'),
+    offlineAK8PFPuppiJetsCorrected = cms.InputTag('slimmedJetsAK8'),
   ),
 
   recoGenMETCollections = cms.PSet(
@@ -429,7 +429,7 @@ process.maxEvents.input = opts.maxEvents
 process.source.skipEvents = cms.untracked.uint32(opts.skipEvents)
 
 # multi-threading settings
-process.options.numberOfThreads = max(opts.numThreads, 8)
+process.options.numberOfThreads = max(opts.numThreads, 1) #is 8 okay here? Or for crab comment this line out? #put it to 1
 process.options.numberOfStreams = max(opts.numStreams, 0)
 
 # show cmsRun summary at job completion

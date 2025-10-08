@@ -9,9 +9,14 @@ source env.sh
 #                                            | |              
 #          
 # Default values
-BASE_DIR=/eos/user/t/tchatzis/JetTriggers_DPNote/
-OUT_EOS_DIR=DPNoteSubmitterV3
-JOBS_DIR_NAME=DPNoteSubmitterV3
+#BASE_DIR=/eos/user/t/tchatzis/JetTriggers_DPNote/
+#BASE_DIR=/eos/user/b/blehtela/puppiStudies/puppiStudies_142XmixedPFPuppi/ #where the input is (i put one hadded file there)
+BASE_DIR=/eos/user/b/blehtela/puppiStudies/ #puppiStudies_142XmixedPFPuppi/ #input, around 237 files a 6k events each.
+#from above base_dir, have files here: QCD_Bin-PT-15to7000_Par-PT-flat2022_TuneCP5_13p6TeV_pythia8/crab_puppiStudies_142XmixedPFPuppi/250917_130444/0000/out_31.root
+#BASE_DIR=/eos/user/b/blehtela/jmetrigger/puppiTests/ #/histoInputTest/
+#for tests use this: histoInputTest/test_puppi_recoOption-mixedPFPuppi-and-AK8_1k-events_10Sep2025_NEW.root
+OUT_EOS_DIR=jmetrigger/PuppiTriggerAnalysisSubmitterV3manyNtuplesOUTDIR
+JOBS_DIR_NAME=PuppiTriggerAnalysisSubmitterV3manyNtuplesJOBSDIR
 
 # Flags for condor jobs
 monitor_jobs=0
@@ -19,10 +24,14 @@ resubmit_jobs=0
 
 # Define dataKeys manually here if you want
 dataKeys=(
+  #histoInputTest
+  puppiStudies_142XmixedPFPuppi
+  #QCD_Bin-PT-15to7000_Par-PT-flat2022_TuneCP5_13p6TeV_pythia8
   #JetMET0_Run2022CV1
 )
 
-DRIVER_CONFIG=efficiencies_miniaod
+#DRIVER_CONFIG=efficiencies_miniaod #update this!!
+DRIVER_CONFIG=efficiencies_puppistudies
 # Parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -82,7 +91,10 @@ FIRST_USER_LETTER=${USER:0:1}
 for dataKey in "${dataKeys[@]}"; do
   echo ${dataKey}
   # directory with input JMETriggerNTuple(s)
-  INPDIR=${BASE_DIR}${dataKey}"/*/*/*/*"
+  INPDIR=${BASE_DIR}${dataKey}"/*/*/*/*" #the stars are due to crab-directory structure (double-check how many)
+  echo "input directory searched: "
+  echo $INPDIR
+  #INPDIR=${BASE_DIR}${dataKey}"*"
   #directory with outputs of NTupleAnalysis
   OUTDIR=./${JOBS_DIR_NAME}/${dataKey}
   OUTPUTDIR=/eos/user/${FIRST_USER_LETTER}/${USER}/${OUT_EOS_DIR}/${dataKey}/
@@ -100,7 +112,8 @@ for dataKey in "${dataKeys[@]}"; do
   else
     # Jobs creation
     [ -d ${OUTDIR}/ntuples ] || (ln -sf ${INPDIR} ${OUTDIR}/ntuples)
-    batch_driver.py -l 1 -n 10000000000000000000 -p JMETriggerAnalysisDriverRun3 -cfg ${DRIVER_CONFIG} \
+    #batch_driver.py -l 1 -n 10000000000000000000 -p JMETriggerAnalysisDriverRun3 -cfg ${DRIVER_CONFIG} \
+    batch_driver.py -l 1 -n 100000 -p JMETriggerAnalysisDriverRun3 -cfg ${DRIVER_CONFIG} \
     -i ${INPDIR}/*.root -o ${OUTDIR}/jobs \
     -od ${OUTPUTDIR} \
     --JobFlavour microcentury
