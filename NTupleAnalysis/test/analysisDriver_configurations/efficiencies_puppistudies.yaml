@@ -1,0 +1,67 @@
+# determines which from the available detector jet regions categories on eta,phi, pt etc will be used. These are defined in JMETriggerAnalysisDriverRun3::jetBelongsToCategory(...) function in NTupleAnalysis/src/JMETriggerAnalysisDriverRun3.cc
+jetCategoryLabels:
+  - _EtaIncl
+  - _HB
+#  - _Eta2p5
+#  - _HB
+#  - _HE1
+#  - _HE2
+#  - _HF
+#  - _BPix
+#  - _BPixVeto
+#  - _FPix
+#  - _FPixVeto
+
+# determines which from the available run periods to be used. These are defined in JMETriggerAnalysisDriverRun3::runPeriod(...) function in NTupleAnalysis/src/JMETriggerAnalysisDriverRun3.cc
+#What to put here, since we use MC? I leave it empty for MC
+runPeriods: []
+
+#runPeriods:
+#  - 2022
+#  - 2023
+#  - 2024
+#  - 2024_beforeFPix
+#  - 2024_FPix
+
+# with this provides very minimal output for efficiencies calculations only. It will contain only offline quantities in the output directories with minimal info, needed for efficiencies.
+lightVersion: false #true 
+# this will skip the NoSelection category. In case of MC can be set to False to provide denominators for efficiencies/unbiased selections for performances.
+useOnlyTriggers: false #true
+# this will use only run periods definitions for categories selection. For MC should be deactivated.
+useOnlyRunPeriods: false #true
+
+# Booleans paths to be used in the analysis for defining regions. Make sure both your numerator and denominators are here for efficiencies calculations.
+# I had first tried with empty lists to check if the "NoSelection" stuff works. Now try with jet triggers.
+jettriggers: #[]
+  - HLT_PFJet40
+  - HLT_PFPuppiJet40
+  - HLT_AK8PFJet40
+  - HLT_AK8PFPuppiJet40
+  - HLT_PFJet60   #as used in efficiencies_raw.yaml
+  - HLT_PFJet140  #as used in efficiencies_raw.yaml
+  - HLT_PFJet320  #as used in efficiencies_raw.yaml
+  - HLT_PFJet500  #as used in efficiencies_raw.yaml
+
+
+httriggers: []
+
+mettriggers: []
+
+#jettriggers:
+#  - HLT_PFJet40
+#  - HLT_PFPuppiJet40
+#  - HLT_AK8PFJet40
+#  - HLT_AK8PFPuppiJet40
+#  - HLT_PFJet60   #as used in efficiencies_raw.yaml
+#  - HLT_PFJet140  #as used in efficiencies_raw.yaml
+#  - HLT_PFJet320  #as used in efficiencies_raw.yaml
+#  - HLT_PFJet500  #as used in efficiencies_raw.yaml
+#
+#httriggers:
+#  - HLT_PFHT1050  #as used in efficiencies_raw.yaml
+#
+#mettriggers: # []
+#  - HLT_PFMET120_PFMHT120_IDTight                   #as used in efficiencies_raw.yaml
+#  - HLT_PFMETNoMu120_PFMHTNoMu120_IDTight           #as used in efficiencies_raw.yaml
+#  - HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_FilterHF  #as used in efficiencies_raw.yaml
+#  - HLT_IsoMu27                                     #as used in efficiencies_raw.yaml
