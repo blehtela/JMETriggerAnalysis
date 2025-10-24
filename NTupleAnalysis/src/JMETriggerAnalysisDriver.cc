@@ -1597,6 +1597,9 @@ void JMETriggerAnalysisDriver::fillHistograms_MET(const std::string& dir,
                                                   const fillHistoDataMET& fhData,
                                                   float const weight,
                                                   bool const lightVersion) {
+
+  std::cout << "In function: fillHistograms_MET() now." << std::endl << std::flush;
+
   auto dirPrefix(dir);
   while (dirPrefix.back() == '/') {
     dirPrefix.pop_back();
@@ -1604,6 +1607,8 @@ void JMETriggerAnalysisDriver::fillHistograms_MET(const std::string& dir,
   if (not dirPrefix.empty()) {
     dirPrefix += "/";
   }
+
+  //std::cout << "In function: fillHistograms_MET() now." << std::endl << std::flush;
 
   auto const* v_pt(this->vector_ptr<float>(fhData.metCollection + "_pt"));
   auto const* v_phi(this->vector_ptr<float>(fhData.metCollection + "_phi"));

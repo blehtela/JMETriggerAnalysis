@@ -491,7 +491,9 @@ void JMETriggerAnalysisDriverRun3::analyze(){
       fhDataAK4Jets.matches.emplace_back(fillHistoDataJets::Match(jetLabelRefs.first, jetLabelRefs.second, jetPt2, maxAK4JetDeltaRmatchRef));
     }
     if (!useOnlyTriggers){
+      std::cout << "fillHistograms_Jets if (!useOnlyTriggers): before FIRST occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
       fillHistograms_Jets("NoSelection", fhDataAK4Jets, wgt, lightVersion);
+      std::cout << "fillHistograms_Jets if (!useOnlyTriggers): after FIRST occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
     }
     
 
@@ -509,11 +511,13 @@ void JMETriggerAnalysisDriverRun3::analyze(){
       }
       if (!useOnlyRunPeriods){
         fillHistograms_Jets(selLabel, fhDataAK4JetsNew, wgt, lightVersion);
+        std::cout << "fillHistograms_Jets if (!useOnlyTriggers): SECOND occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
       }
       // fill different run periods
       for(auto const& runPeriodLabel : runPeriods){
         auto const runPer = hasTTreeReaderValue("run") ? runPeriod(runPeriodLabel) : false;
         if(runPer){
+          std::cout << "runPer: " << runPer << std::endl << std::flush; //ADDED FOR TESTING
           fillHistograms_Jets(selLabel+"_"+runPeriodLabel, fhDataAK4JetsNew, wgt, lightVersion);
         }
       }
@@ -529,6 +533,7 @@ void JMETriggerAnalysisDriverRun3::analyze(){
       }
       if (!useOnlyRunPeriods){
         fillHistograms_Jets(selLabel, fhDataAK4Jets, wgt, lightVersion);
+        std::cout << "fillHistograms_Jets if (!useOnlyTriggers): THIRD occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
       }
       // fill different run periods
       for(auto const& runPeriodLabel : runPeriods){
@@ -568,6 +573,7 @@ void JMETriggerAnalysisDriverRun3::analyze(){
     }
     if (!useOnlyTriggers){
       fillHistograms_Jets("NoSelection", fhDataAK8Jets, wgt);
+      std::cout << "fillHistograms_Jets if (!useOnlyTriggers): FOURTH occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
     }
   }
 
@@ -582,18 +588,21 @@ void JMETriggerAnalysisDriverRun3::analyze(){
       fhDataMET.matches.emplace_back(fillHistoDataMET::Match(metRefs.first, metRefs.second));
     }
     if (!useOnlyTriggers){
+      std::cout << "HERE trying to call fillHistograms_MET" << std::endl << std::flush;
       fillHistograms_MET("NoSelection", fhDataMET, wgt);
     }
     for(auto const& selLabel : mettriggers){
       auto const hltTrig = hasTTreeReaderValue(selLabel) ? value<bool>(selLabel) : false;//hltMETTrigger(selLabel);
       if(hltTrig){
         if (!useOnlyRunPeriods){
+          std::cout << "HERE trying to call fillHistograms_MET (2)" << std::endl << std::flush;
           fillHistograms_MET(selLabel, fhDataMET, wgt, lightVersion);
         }
         // fill different run periods
         for(auto const& runPeriodLabel : runPeriods){
           auto const runPer = hasTTreeReaderValue("run") ? runPeriod(runPeriodLabel) : false;
           if(runPer){
+            std::cout << "HERE trying to call fillHistograms_MET (3)" << std::endl << std::flush;
             fillHistograms_MET(selLabel+"_"+runPeriodLabel, fhDataMET, wgt, lightVersion);
           }
         }
@@ -603,6 +612,7 @@ void JMETriggerAnalysisDriverRun3::analyze(){
     for(auto const& selLabel : puintervals){
       auto const puInt = hasTTreeReaderValue("pileupInfo_BX0_numPUInteractions") ? pileupintervals(selLabel) : false;
       if(puInt){
+        std::cout << "HERE trying to call fillHistograms_MET (4)" << std::endl << std::flush;
         fillHistograms_MET(selLabel, fhDataMET, wgt);
       }
     }
