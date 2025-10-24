@@ -10,8 +10,9 @@ source env.sh
 #                                            |_|              
 # Default values
 #OUT_EOS_DIR="/DPNoteSubmitter/"
-OUT_EOS_DIR="/jmetrigger/PuppiTriggerAnalysisSubmitterV2/"
-OUTPUT_FILE_NAME="dataharvested"
+#OUT_EOS_DIR="/puppiTests_15Oct2025_V6_newTEST/"
+OUT_EOS_DIR="/puppiTests_15Oct2025_jetTriggers/"
+OUTPUT_FILE_NAME="dataharvested_jetTriggers_myfork_15Oct2025"
 SKIP_HARVEST=false
 
 # Parse arguments

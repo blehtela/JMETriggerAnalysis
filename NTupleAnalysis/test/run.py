@@ -198,6 +198,8 @@ if __name__ == '__main__':
        analyzer.setInputTTree(i_inpFile, i_inpTree)
        print("After setting the input TTree.")
        analyzer.process(skipEvents, i_maxEvents)
+       print("After analyzer.process(skipEvents, i_maxEvents) in run.py.")
+
 
    nEvtProcessed = analyzer.eventsProcessed()
 

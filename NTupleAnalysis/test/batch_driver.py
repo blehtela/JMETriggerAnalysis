@@ -224,7 +224,8 @@ if __name__ == '__main__':
                 'should_transfer_files   = IF_NEEDED',
                 'when_to_transfer_output = ON_EXIT',
                 'MY.WantOS = "el8"',
-                ' RequestMemory  =  2000',
+                #' RequestMemory  =  2000',
+                ' RequestMemory  =  8000',
                 '+MaxRuntime = '+str(opts.RequestRuntime),
               ]
 
