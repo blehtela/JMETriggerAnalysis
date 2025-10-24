@@ -22,32 +22,38 @@ def getOutputName(input_dataset):
         print("Substring not found in the input string.")
 
 # This is the job name - change it to your liking.
-job_name='compareCaloJets' 
+#job_name='compareCaloJets' 
+job_name='checkECALmasking' 
+
 
 # Make sure you use both MINIAOD and RAW in case you want to have the offline inputs as well.
 
 primary_dataset_list = [
-    "/GJ-4Jets_Bin-HT-40to200-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
-    "/GJ-4Jets_Bin-HT-200to400-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
-    "/GJ-4Jets_Bin-HT-400to600-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
-    "/GJ-4Jets_Bin-HT-600to1000-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
-    "/GJ-4Jets_Bin-HT-1000-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
-    "/GJ-4Jets_Bin-HT-40to400-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
-    "/GJ-4Jets_Bin-HT-400to600-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
-    "/GJ-4Jets_Bin-HT-600to1000-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
-    "/GJ-4Jets_Bin-HT-1000-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
+    '/Muon0/Run2025D-PromptReco-v1/MINIAOD'
+
+    #"/GJ-4Jets_Bin-HT-40to200-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
+    #"/GJ-4Jets_Bin-HT-200to400-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
+    #"/GJ-4Jets_Bin-HT-400to600-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
+    #"/GJ-4Jets_Bin-HT-600to1000-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
+    #"/GJ-4Jets_Bin-HT-1000-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
+    #"/GJ-4Jets_Bin-HT-40to400-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
+    #"/GJ-4Jets_Bin-HT-400to600-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
+    #"/GJ-4Jets_Bin-HT-600to1000-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
+    #"/GJ-4Jets_Bin-HT-1000-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
 ]
 
 secondary_dataset_list = [
-    "/GJ-4Jets_Bin-HT-40to200-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
-    "/GJ-4Jets_Bin-HT-200to400-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
-    "/GJ-4Jets_Bin-HT-400to600-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
-    "/GJ-4Jets_Bin-HT-600to1000-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
-    "/GJ-4Jets_Bin-HT-1000-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
-    "/GJ-4Jets_Bin-HT-40to400-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
-    "/GJ-4Jets_Bin-HT-400to600-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
-    "/GJ-4Jets_Bin-HT-600to1000-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
-    "/GJ-4Jets_Bin-HT-1000-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
+    '/Muon0/Run2025D-v1/RAW'
+
+    #"/GJ-4Jets_Bin-HT-40to200-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
+    #"/GJ-4Jets_Bin-HT-200to400-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
+    #"/GJ-4Jets_Bin-HT-400to600-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
+    #"/GJ-4Jets_Bin-HT-600to1000-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
+    #"/GJ-4Jets_Bin-HT-1000-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
+    #"/GJ-4Jets_Bin-HT-40to400-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
+    #"/GJ-4Jets_Bin-HT-400to600-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
+    #"/GJ-4Jets_Bin-HT-600to1000-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
+    #"/GJ-4Jets_Bin-HT-1000-PTG-200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
 ]
 
 # primary_dataset='/Muon0/Run2024G-PromptReco-v1/MINIAOD'
@@ -56,16 +62,17 @@ secondary_dataset_list = [
 # Options for reco argument
 recoOptions=[
     'default',
-    'caloTowers_thresholds'
+    'ECALmasking'
+    #'caloTowers_thresholds'
 ]
 
 # You can also add in case you want different db files for the JECs/PFHCs. If the key doesn't have a JEC defined here it will do nothing.
 recoOptionsPFHCs={
-    'caloTowers_thresholds':'PFCalibration.db'
+    #'caloTowers_thresholds':'PFCalibration.db'
 }
 
 recoOptionsJECs={
-    'caloTowers_thresholds':'WCalo_Run3Winter24Digi.db'
+    #'caloTowers_thresholds':'WCalo_Run3Winter24Digi.db'
 }
 
 # Note : check bellow outLFNDirBase such that you have a working directory 
@@ -83,9 +90,9 @@ config.General.workArea = job_name
 
 config.section_('JobType')
 config.JobType.pluginName  = 'Analysis'
-config.JobType.psetName = input_file_dir+'jmeTriggerNTuple2023Data_cfg.py'
+config.JobType.psetName = input_file_dir+'jmeTriggerNTuple_cfg.py'  #adjust as needed
 
-config.JobType.maxMemoryMB = 2500
+config.JobType.maxMemoryMB = 5000   #2500
 config.JobType.allowUndistributedCMSSW = True
 
 config.section_('Data')

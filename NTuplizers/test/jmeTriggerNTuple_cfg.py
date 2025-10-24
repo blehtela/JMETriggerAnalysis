@@ -78,16 +78,10 @@ opts.parseArguments()
 update_jmeCalibs = False
 
 if opts.reco == 'default':
-  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_0_0_GRun_configDump import cms, process
-
-elif opts.reco == 'testMHT':
-  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_14_2_0_GRun_configDump import cms, process
-  # customize MHT definition 
-  from HLTrigger.Configuration.customizerHLTforMHT import customizerHLTforMHT
-  process = customizerHLTforMHT(process)
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump import cms, process
 
 elif opts.reco == 'mixedPFPuppi':
-  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_0_0_GRun_configDump import cms, process
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump import cms, process
   # adding mixed tracking in PF
   print("adding mixed tracking in PF")
   from HLTrigger.Configuration.customizeHLTforMixedTrkPUPPI import *
@@ -96,6 +90,15 @@ elif opts.reco == 'mixedPFPuppi':
   print("adding CHS/PUPPI")
   process = addPaths_MC_JMEPFCHS(process)
   process = addPaths_MC_JMEPFPuppi(process,[])[0] #why only the first argument?, #added empty list cause fct needs listOfPaths (might wanna solve this differently)
+
+#added new reco option to check the ECAL masking impact (24th of October 2025, bettina)
+#see this ticket: https://its.cern.ch/jira/browse/CMSHLT-3652
+elif opts.reco == 'ECALmasking':
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump import cms, process #import menu for DATA (udpated it)
+  # adding masking of bad ECAL channels
+  print("Adding the ECAL masks.")
+  process.hltEcalRecHit.ChannelStatusToBeExcluded = ['kDAC', 'kNoisy', 'kNNoisy', 'kFixedG6', 'kFixedG1', 'kFixedG0', 'kNonRespondingIsolated', 'kDeadVFE', 'kDeadFE', 'kNoDataNoTP']
+  hltEcalRecHitSerialSync.ChannelStatusToBeExcluded = ['kDAC', 'kNoisy', 'kNNoisy', 'kFixedG6', 'kFixedG1', 'kFixedG0', 'kNonRespondingIsolated', 'kDeadVFE', 'kDeadFE', 'kNoDataNoTP']
 
 else:
   raise RuntimeError('keyword "reco = '+opts.reco+'" not recognised')
