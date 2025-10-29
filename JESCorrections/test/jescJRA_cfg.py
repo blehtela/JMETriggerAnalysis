@@ -76,10 +76,10 @@ print(f'Using {opts.reco}')
 
 
 if opts.reco == 'default':
-  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_0_0_GRun_configDump import *
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump import *
   
 elif opts.reco == 'mixedPFPuppi':
-  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_0_0_GRun_configDump import *
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump import *
   # adding mixed tracking in PF
   print("adding mixed tracking in PF")
   from HLTrigger.Configuration.customizeHLTforMixedTrkPUPPI import *

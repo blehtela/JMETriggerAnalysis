@@ -20,8 +20,8 @@ def getOutputName(input_dataset):
         print("Substring not found in the input string.")
 
 dataset_flatPU='/QCD_Bin-Pt-15to7000_TuneCP5_13p6TeV_pythia8/Run3Winter25Digi-FlatPU0to120_142X_mcRun3_2025_realistic_v7-v3/GEN-SIM-RAW'
-dataset_noPU='/QCD_Bin-Pt-15to7000_TuneCP5_13p6TeV_pythia8/Run3Winter25Digi-NoPU_142X_mcRun3_2025_realistic_v7-v3/GEN-SIM-RAW'
-doPuppiCHS = False
+#dataset_noPU='/QCD_Bin-Pt-15to7000_TuneCP5_13p6TeV_pythia8/Run3Winter25Digi-NoPU_142X_mcRun3_2025_realistic_v7-v3/GEN-SIM-RAW' #commented out for puppi
+doPuppiCHS = True  #False
 
 # Note : check bellow outLFNDirBase such that you have a working directory 
 # default is to output in personal EOS space /store/user/[your_lxplus_user_name]/JRA_NTuples/
@@ -52,7 +52,8 @@ config.Data.unitsPerJob = 1 #200
 config.Data.totalUnits = -1
 
 config.section_('Site')
-config.Site.storageSite = 'T3_CH_CERNBOX'
+#config.Site.storageSite = 'T3_CH_CERNBOX'   #personal EOS space
+config.Site.storageSite = 'T2_CH_CERN'       #jme EOS space
 config.section_('User')
 
 from CRABAPI.RawCommand import crabCommand
@@ -70,7 +71,8 @@ for bpixMode in ['noBPix','BPix','FPix']:
     for input_dataset in [dataset_flatPU, dataset_noPU]:
         output_requestName = 'JRA_'+getOutputName(input_dataset.split('/')[2])+bpixMode
         config.General.requestName = output_requestName
-        config.Data.outLFNDirBase = '/store/user/%s/JRA_NTuples/%s'%(getUsername(),output_requestName)
+        #config.Data.outLFNDirBase = '/store/user/%s/JRA_NTuples/%s'%(getUsername(),output_requestName) #personal EOS space
+        config.Data.outLFNDirBase = '/store/group/phys_jetmet/%s/JRA_NTuples/%s'%(getUsername(),output_requestName)  #jme eos, personal directory
         config.Data.inputDataset = input_dataset
         
         # needed to be able to use pyCfgParams 
