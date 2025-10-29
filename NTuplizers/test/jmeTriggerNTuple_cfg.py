@@ -75,13 +75,16 @@ opts.parseArguments()
 ### HLT configuration
 ###
 
+#note: make sure that the menu is the up-to-date one you want: MC or DATA.
+#safest to update via hltGetConfiguration, and check you have the right filename here
+
 update_jmeCalibs = False
 
 if opts.reco == 'default':
-  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump import cms, process
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump_data import cms, process
 
 elif opts.reco == 'mixedPFPuppi':
-  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump import cms, process
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump_data import cms, process
   # adding mixed tracking in PF
   print("adding mixed tracking in PF")
   from HLTrigger.Configuration.customizeHLTforMixedTrkPUPPI import *
@@ -94,11 +97,11 @@ elif opts.reco == 'mixedPFPuppi':
 #added new reco option to check the ECAL masking impact (24th of October 2025, bettina)
 #see this ticket: https://its.cern.ch/jira/browse/CMSHLT-3652
 elif opts.reco == 'ECALmasking':
-  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump import cms, process #import menu for DATA (udpated it)
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump_data import cms, process #import menu for DATA (udpated it)
   # adding masking of bad ECAL channels
   print("Adding the ECAL masks.")
   process.hltEcalRecHit.ChannelStatusToBeExcluded = ['kDAC', 'kNoisy', 'kNNoisy', 'kFixedG6', 'kFixedG1', 'kFixedG0', 'kNonRespondingIsolated', 'kDeadVFE', 'kDeadFE', 'kNoDataNoTP']
-  hltEcalRecHitSerialSync.ChannelStatusToBeExcluded = ['kDAC', 'kNoisy', 'kNNoisy', 'kFixedG6', 'kFixedG1', 'kFixedG0', 'kNonRespondingIsolated', 'kDeadVFE', 'kDeadFE', 'kNoDataNoTP']
+  #process.hltEcalRecHitSerialSync.ChannelStatusToBeExcluded = ['kDAC', 'kNoisy', 'kNNoisy', 'kFixedG6', 'kFixedG1', 'kFixedG0', 'kNonRespondingIsolated', 'kDeadVFE', 'kDeadFE', 'kNoDataNoTP'] #this is for scouting, not needed in our paths
 
 else:
   raise RuntimeError('keyword "reco = '+opts.reco+'" not recognised')
@@ -163,7 +166,8 @@ keepPaths = [
   'HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass8_v*',
   'HLT_PFPuppiJet*_v*',    #adding this here explicitly (08.09.2025)
   'HLT_AK8PFPuppiJet*_v*', #adding this here explicitly (09.09.2025)
-  'MC_JMEPFPuppi_v*'      #adding this now also explicitly (reconstruction, 10.09.2025)
+  'MC_JMEPFPuppi_v*',      #adding this now also explicitly (reconstruction, 10.09.2025)
+  'HLT_IsoMu*'            #need this later to define denominator
 ]
 
 vetoPaths = [
@@ -302,8 +306,7 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
   ),
 
   recoGenJetCollections = cms.PSet(
-
-    ak4GenJetsNoNu = cms.InputTag('ak4GenJetsNoNu::HLT'),
+    #ak4GenJetsNoNu = cms.InputTag('ak4GenJetsNoNu::HLT'),  #needed for MC, so also for puppi studies
     #ak8GenJetsNoNu = cms.InputTag('ak8GenJetsNoNu::HLT'),
   ),
 
@@ -371,7 +374,7 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
   recoGenMETCollections = cms.PSet(
 
     #genMETCalo = cms.InputTag('genMetCalo::HLT'),
-    genMETTrue = cms.InputTag('genMetTrue::HLT'),
+    #genMETTrue = cms.InputTag('genMetTrue::HLT'),    #needed for MC studies (puppi studies)
   ),
 
   recoCaloMETCollections = cms.PSet(
@@ -399,9 +402,8 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
   ),
 
   patMETCollections = cms.PSet(
-
-    #offlinePFMET = cms.InputTag('slimmedMETs'),
-    #offlinePFPuppiMET = cms.InputTag('slimmedMETsPuppi'),
+    offlinePFMET = cms.InputTag('slimmedMETs'),
+    offlinePFPuppiMET = cms.InputTag('slimmedMETsPuppi'),
   ),
 
   recoMuonCollections = cms.PSet(
@@ -492,3 +494,6 @@ if opts.verbosity > 0:
    print('process.maxEvents =', process.maxEvents.dumpPython())
    print('process.options =', process.options.dumpPython())
    print('-------------------------------')
+
+#now always (debugging)
+print(process.GlobalTag.globaltag.value())

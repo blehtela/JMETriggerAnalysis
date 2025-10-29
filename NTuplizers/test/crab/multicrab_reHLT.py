@@ -23,7 +23,7 @@ def getOutputName(input_dataset):
 
 # This is the job name - change it to your liking.
 #job_name='compareCaloJets' 
-job_name='checkECALmasking' 
+job_name='checkECALmasking_27Oct2025_METincluded' 
 
 
 # Make sure you use both MINIAOD and RAW in case you want to have the offline inputs as well.
@@ -92,7 +92,7 @@ config.section_('JobType')
 config.JobType.pluginName  = 'Analysis'
 config.JobType.psetName = input_file_dir+'jmeTriggerNTuple_cfg.py'  #adjust as needed
 
-config.JobType.maxMemoryMB = 5000   #2500
+config.JobType.maxMemoryMB = 3000   #2600  #5000   #2500
 config.JobType.allowUndistributedCMSSW = True
 
 config.section_('Data')
@@ -103,7 +103,8 @@ config.Data.unitsPerJob = 1 #200
 config.Data.totalUnits = 1000
 
 config.section_('Site')
-config.Site.storageSite = 'T3_CH_CERNBOX'
+#config.Site.storageSite = 'T3_CH_CERNBOX'   #when writing to own EOS
+config.Site.storageSite = 'T2_CH_CERN'      #when writing to jme EOS
 config.section_('User')
 
 from CRABAPI.RawCommand import crabCommand
@@ -118,9 +119,12 @@ for primary_dataset,secondary_dataset in zip(primary_dataset_list, secondary_dat
     for reco in recoOptions:
         config.JobType.pyCfgParams = ['reco='+reco]
         #output_requestName = job_name+'_'+getOutputName(primary_dataset.split('/')[2])+reco
-        output_requestName = job_name+'_'+primary_dataset+'_'+reco
+        #print("output_requestName=", output_requestName)
+        output_requestName = job_name+'_'+'Muon0-Run2025D-v1'+'_'+reco    # HARD CODED FOR NOW
+        #output_requestName = job_name+'_'+primary_dataset+'_'+reco
         config.General.requestName = output_requestName
-        config.Data.outLFNDirBase = '/store/user/%s/%s/%s'%(getUsername(),job_name,output_requestName)
+        #config.Data.outLFNDirBase = '/store/user/%s/%s/%s'%(getUsername(),job_name,output_requestName) #personal eos
+        config.Data.outLFNDirBase = '/store/group/phys_jetmet/%s/%s/%s'%(getUsername(),job_name,output_requestName) #jme eos, personal directory
         config.Data.inputDataset = primary_dataset
         config.Data.secondaryInputDataset = secondary_dataset
         ## adding needed input files for calibrations and corresponding command arguments per job
@@ -134,7 +138,7 @@ for primary_dataset,secondary_dataset in zip(primary_dataset_list, secondary_dat
         print(reco)
         print(f"{primary_dataset} \n {secondary_dataset}")
         # needed to be able to use pyCfgParams 
-        #p = Process(target=submit, args=(config,))
-        #p.start()
-        #p.join()
+        p = Process(target=submit, args=(config,))
+        p.start()
+        p.join()
 
