@@ -12,14 +12,15 @@ jetCategoryLabels:
   - _FPixVeto
 
 # determines which from the available run periods to be used. These are defined in JMETriggerAnalysisDriverRun3::runPeriod(...) function in NTupleAnalysis/src/JMETriggerAnalysisDriverRun3.cc
-runPeriods: []
+runPeriods: [] #[ 2025D ]
+#  - 2025D
 
 # with this provides very minimal output for efficiencies calculations only. It will contain only offline quantities in the output directories with minimal info, needed for efficiencies.
-lightVersion: true 
+lightVersion: false #true 
 # this will skip the NoSelection category. In case of MC/re-running from RAW can be set to False to provide denominators for efficiencies/unbiased selections for performances.
-useOnlyTriggers: false
+useOnlyTriggers: false #true #false
 # this will use only run periods definitions for categories selection. For MC should be deactivated.
-useOnlyRunPeriods: false
+useOnlyRunPeriods: false #true #false
 
 # Booleans paths to be used in the analysis for defining regions. Make sure both your numerator and denominators are here for efficiencies calculations.
 jettriggers:

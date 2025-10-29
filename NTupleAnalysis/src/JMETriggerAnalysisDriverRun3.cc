@@ -456,9 +456,9 @@ void JMETriggerAnalysisDriverRun3::analyze(){
 
   // for data to use also the IsoMu27 (works only with muon dataset)
   // all events analyzed must fullfill the iso muon requirement
-  // if(hasTTreeReaderValue("HLT_IsoMu27") && !value<bool>("HLT_IsoMu27")){
-  //   return;
-  // }
+  if(hasTTreeReaderValue("HLT_IsoMu27") && !value<bool>("HLT_IsoMu27")){  //use this for the ECALmasking investigation (done on Muon0)
+    return;
+  }
 
   H1("eventsProcessed")->Fill(0.5);
 

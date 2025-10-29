@@ -8,37 +8,64 @@ source env.sh
 # \_|  \__,_|_|  |___/\___|\__,_|  \___/_| |_| .__/ \__,_|\__|
 #                                            | |              
 #          
+
+#boolean for PUPPI vs other efficiency checks
+puppiStudy=false
+
 # Default values
 #BASE_DIR=/eos/user/t/tchatzis/JetTriggers_DPNote/
 #BASE_DIR=/eos/user/b/blehtela/puppiStudies/puppiStudies_142XmixedPFPuppi/ #where the input is (i put one hadded file there)
-BASE_DIR=/eos/user/b/blehtela/puppiStudies/ #puppiStudies_142XmixedPFPuppi/ #input, around 237 files a 6k events each.
+###BASE_DIR=x/eos/user/b/blehtela/puppiStudies/ #puppiStudies_142XmixedPFPuppi/ #input, around 237 files a 6k events each.
+
 #BASE_DIR=inputTest/ #try locally
 #from above base_dir, have files here: QCD_Bin-PT-15to7000_Par-PT-flat2022_TuneCP5_13p6TeV_pythia8/crab_puppiStudies_142XmixedPFPuppi/250917_130444/0000/out_31.root
 #BASE_DIR=/eos/user/b/blehtela/jmetrigger/puppiTests/ #/histoInputTest/
 #for tests use this: histoInputTest/test_puppi_recoOption-mixedPFPuppi-and-AK8_1k-events_10Sep2025_NEW.root
 ##OUT_EOS_DIR=jmetrigger/PuppiTriggerAnalysisSubmitterV3manyNtuplesOUTDIR
 #OUT_EOS_DIR=puppiTests_15Oct2025_V6_newTEST
-OUT_EOS_DIR=puppiTests_15Oct2025_jetTriggers
+###OUT_EOS_DIR=xpuppiTests_15Oct2025_jetTriggers
+
+if [ "$puppiStudy" = true ]; then
+    echo "Setting PUPPI study directories (input, output, jobs)"
+    BASE_DIR=/eos/user/b/blehtela/puppiStudies/
+    OUT_EOS_DIR=puppiTests_15Oct2025_jetTriggers
+    JOBS_DIR_NAME=PuppiTests_15Oct2025_jetTriggers_JOBDIR
+    dataKeys=(
+        puppiStudies_142XmixedPFPuppi # USE THIS on eos; testing with one file only
+    )
+else
+    echo "Setting directories (input, output, jobs)"
+    BASE_DIR=/eos/user/b/blehtela/checkECALmasking_25Oct2025/
+    OUT_EOS_DIR=ECALmasking_27oct2025_OUT
+    JOBS_DIR_NAME=ECALmasking_27oct2025_JOBDIR
+    dataKeys=( 
+        checkECALmasking_25Oct2025_Muon0-Run2025D-v1_default
+        checkECALmasking_25Oct2025_Muon0-Run2025D-v1_ECALmasking
+    )
+fi
+
+echo "$BASE_DIR"
+
 
 #JOBS_DIR_NAME=PuppiTriggerAnalysisSubmitterV3manyNtuplesJOBSDIR
 #JOBS_DIR_NAME=PuppiTriggerAnalysisSubmitterV6manyNtuplesJOBSDIR_newTEST
-JOBS_DIR_NAME=PuppiTests_15Oct2025_jetTriggers_JOBDIR
+#JOBS_DIR_NAME=PuppiTests_15Oct2025_jetTriggers_JOBDIR
 
 # Flags for condor jobs
 monitor_jobs=0
 resubmit_jobs=0
 
 # Define dataKeys manually here if you want
-dataKeys=(
+#dataKeys=(
   #histoInputTest
   #testfiles
-  puppiStudies_142XmixedPFPuppi # USE THIS on eos; testing with one file only
+  ##puppiStudies_142XmixedPFPuppi # USE THIS on eos; testing with one file only
   #QCD_Bin-PT-15to7000_Par-PT-flat2022_TuneCP5_13p6TeV_pythia8 #this includes more files!
   #JetMET0_Run2022CV1
-)
+#)
 
-#DRIVER_CONFIG=efficiencies_miniaod #update this!!
-DRIVER_CONFIG=efficiencies_puppistudies
+DRIVER_CONFIG=efficiencies_raw      #efficiencies_miniaod #update this!!
+#DRIVER_CONFIG=efficiencies_puppistudies    #for puppi
 # Parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -98,8 +125,8 @@ FIRST_USER_LETTER=${USER:0:1}
 for dataKey in "${dataKeys[@]}"; do
   echo ${dataKey}
   # directory with input JMETriggerNTuple(s)
-  ##INPDIR=${BASE_DIR}${dataKey}"/*/*/*/*" #the stars are due to crab-directory structure (double-check how many)
-  INPDIR=${BASE_DIR}${dataKey} #"/*"
+  INPDIR=${BASE_DIR}${dataKey}"/*/*/*/*" #the stars are due to crab-directory structure (double-check how many)
+  ##INPDIR=${BASE_DIR}${dataKey} #"/*"
   echo "input directory searched: "
   echo $INPDIR
   #INPDIR=${BASE_DIR}${dataKey}"*"
