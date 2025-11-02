@@ -23,13 +23,16 @@ def getOutputName(input_dataset):
 
 # This is the job name - change it to your liking.
 #job_name='compareCaloJets' 
-job_name='puppiStudies' 
+#job_name='puppiStudies31Oct2025' 
+job_name='puppiStudies01Nov2025' 
+
 
 # Make sure you use both MINIAOD and RAW in case you want to have the offline inputs as well.
 
 primary_dataset_list = [
     #"/QCD_Bin-PT-15to7000_Par-PT-flat2022_TuneCP5_13p6TeV_pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v4/AODSIM",
-    "/QCD_Bin-PT-15to7000_Par-PT-flat2022_TuneCP5_13p6TeV_pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v4/AODSIM",
+    #"/QCD_Bin-PT-15to7000_Par-PT-flat2022_TuneCP5_13p6TeV_pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v4/AODSIM",
+    "/QCD_Bin-PT-15to7000_Par-PT-flat2022_TuneCP5_13p6TeV_pythia8/Run3Winter25MiniAOD-142X_mcRun3_2025_realistic_v9-v4/MINIAODSIM",
     #"/GJ-4Jets_Bin-HT-40to200-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
     #"/GJ-4Jets_Bin-HT-200to400-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
     #"/GJ-4Jets_Bin-HT-400to600-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
@@ -42,6 +45,7 @@ primary_dataset_list = [
 ]
 
 secondary_dataset_list = [
+    #"/QCD_Bin-PT-15to7000_Par-PT-flat2022_TuneCP5_13p6TeV_pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v4/GEN-SIM-RAW",
     "/QCD_Bin-PT-15to7000_Par-PT-flat2022_TuneCP5_13p6TeV_pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v4/GEN-SIM-RAW",
     #"/store/mc/Run3Winter25Digi/QCD_Bin-PT-15to7000_Par-PT-flat2022_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/",
     #"/GJ-4Jets_Bin-HT-40to200-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
@@ -72,6 +76,7 @@ recoOptionsPFHCs={
 
 recoOptionsJECs={
     #'caloTowers_thresholds':'WCalo_Run3Winter24Digi.db'
+    'mixedPFPuppi':'Run3Winter25PUPPI.db'
 }
 
 # Note : check bellow outLFNDirBase such that you have a working directory 
@@ -91,19 +96,21 @@ config.section_('JobType')
 config.JobType.pluginName  = 'Analysis'
 config.JobType.psetName = input_file_dir+'jmeTriggerNTuple_cfg.py' # ADJUST as needed!
 
-config.JobType.maxMemoryMB = 5000 #2500
+config.JobType.maxMemoryMB = 3000   #10000 #5000 #3000 #5000 #2500
 config.JobType.allowUndistributedCMSSW = True
-config.JobType.numCores = 1 #because if have this in the CMSSW PSet (see jmeTriggerNTuple_cfg.py file), could leave it out in both
+config.JobType.numCores = 1 #4 #go to 2 #1 because if have this in the CMSSW PSet (see jmeTriggerNTuple_cfg.py file), could leave it out in both
 
 config.section_('Data')
 config.Data.publication = False
 config.Data.ignoreLocality = False
 config.Data.splitting = 'FileBased' #'Automatic'
 config.Data.unitsPerJob = 1 #200
-config.Data.totalUnits = 1000
+config.Data.totalUnits = 100    #1000   #went to 100 for miniAOD to not use too much space.
 
 config.section_('Site')
 config.Site.storageSite = 'T3_CH_CERNBOX'
+#config.Site.whitelist = ['T2_CH_CERN'] 
+config.Site.whitelist = ['T2_CH_CERN', 'T2_CN_Beijing', 'T1_US_FNAL'] 
 config.section_('User')
 
 from CRABAPI.RawCommand import crabCommand
@@ -128,9 +135,9 @@ for primary_dataset,secondary_dataset in zip(primary_dataset_list, secondary_dat
         if reco in recoOptionsPFHCs.keys():
             config.JobType.inputFiles.append(input_file_dir + recoOptionsPFHCs[reco])
             config.JobType.pyCfgParams.append('pfhcDBfile='+recoOptionsPFHCs[reco])
-        if reco in recoOptionsJECs.keys() :
-            config.JobType.inputFiles.append(input_file_dir + recoOptionsJECs[reco])
-            config.JobType.pyCfgParams.append('jecDBfile='+recoOptionsJECs[reco])
+        if reco in recoOptionsJECs.keys():
+            config.JobType.inputFiles.append(input_file_dir + recoOptionsJECs[reco])    #sending the .db file to CRAB (for JECs)
+            #config.JobType.pyCfgParams.append('jecDBfile='+recoOptionsJECs[reco])  #for puppi studies we solved this by setting update_jmeCalibs = True in the ntupliser config
         print(reco)
         print(f"{primary_dataset} \n {secondary_dataset}")
         # needed to be able to use pyCfgParams 
