@@ -78,13 +78,14 @@ opts.parseArguments()
 #note: make sure that the menu is the up-to-date one you want: MC or DATA.
 #safest to update via hltGetConfiguration, and check you have the right filename here
 
-update_jmeCalibs = False
+update_jmeCalibs = False  #True   #False #set to true for applying puppi JECs (see below)
 
 if opts.reco == 'default':
-  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump_data import cms, process
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_0_0_GRun_configDump_mc import cms, process
 
 elif opts.reco == 'mixedPFPuppi':
-  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump_data import cms, process
+  update_jmeCalibs = True
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_0_0_GRun_configDump_mc import cms, process
   # adding mixed tracking in PF
   print("adding mixed tracking in PF")
   from HLTrigger.Configuration.customizeHLTforMixedTrkPUPPI import *
@@ -97,7 +98,7 @@ elif opts.reco == 'mixedPFPuppi':
 #added new reco option to check the ECAL masking impact (24th of October 2025, bettina)
 #see this ticket: https://its.cern.ch/jira/browse/CMSHLT-3652
 elif opts.reco == 'ECALmasking':
-  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_1_0_GRun_configDump_data import cms, process #import menu for DATA (udpated it)
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_0_0_GRun_configDump_data import cms, process #import menu for DATA (udpated it)
   # adding masking of bad ECAL channels
   print("Adding the ECAL masks.")
   process.hltEcalRecHit.ChannelStatusToBeExcluded = ['kDAC', 'kNoisy', 'kNNoisy', 'kFixedG6', 'kFixedG1', 'kFixedG0', 'kNonRespondingIsolated', 'kDeadVFE', 'kDeadFE', 'kNoDataNoTP']
@@ -232,6 +233,7 @@ if update_jmeCalibs:
   #process.hltParticleFlow.calibrationsLabel = '' # standard label for Offline-PFHC in GT
 
   ##ES modules for HLT JECs
+  '''
   process.jescESSource = cms.ESSource('PoolDBESSource',
     #_CondDB.clone(connect = 'sqlite_file:'+os.environ['CMSSW_BASE']+'/src/JMETriggerAnalysis/NTuplizers/test/Run3Winter23Digi.db'),
     _CondDB.clone(connect = 'sqlite_file:'+os.environ['CMSSW_BASE']+'/src/JMETriggerAnalysis/NTuplizers/test/WCalo_Run3Winter24Digi.db'),
@@ -261,6 +263,20 @@ if update_jmeCalibs:
     ),
   )
   process.jescESPrefer = cms.ESPrefer('PoolDBESSource', 'jescESSource')
+  '''
+
+  #Doing only JECs for PUPPI (added on 30.10.2025), the other jet-types get JECs from GT
+  process.jescESSource = cms.ESSource('PoolDBESSource',
+    _CondDB.clone(connect = 'sqlite_file:Run3Winter25PUPPI.db'),
+    toGet = cms.VPSet(
+      cms.PSet(
+        record = cms.string('JetCorrectionsRecord'),
+        tag = cms.string('JetCorrectorParametersCollection_Run3Winter25PUPPI_AK4PFPuppiHLT'), # This is the tag that you take from conddb command, so this is what the file reads.
+        label = cms.untracked.string('AK4PFPuppiHLT'), # label of this tag that will be loaded in your global tag.
+      ),
+    ),
+  )
+  process.jescESPrefer = cms.ESPrefer('PoolDBESSource', 'jescESSource')
 
 
 
@@ -277,7 +293,7 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
   ),
   outputBranchesToBeDropped = cms.vstring(),
 
-  HepMCProduct = cms.InputTag('generatorSmeared'),
+  #HepMCProduct = cms.InputTag('generatorSmeared'), #commented out (02 Nov 2025)
   GenEventInfoProduct = cms.InputTag('generator'),
   PileupSummaryInfo = cms.InputTag('addPileupInfo'),
 
@@ -295,11 +311,10 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
   ),
 
   recoVertexCollections = cms.PSet(
-
     #hltPixelVertices = cms.InputTag('hltPixelVertices'),
     #hltTrimmedPixelVertices = cms.InputTag('hltTrimmedPixelVertices'),
     #hltVerticesPF = cms.InputTag('hltVerticesPF'),
-    #offlinePrimaryVertices = cms.InputTag('offlineSlimmedPrimaryVertices'),
+    offlinePrimaryVertices = cms.InputTag('offlineSlimmedPrimaryVertices'),
   ),
 
   recoPFCandidateCollections = cms.PSet(
