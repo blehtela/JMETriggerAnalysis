@@ -700,7 +700,8 @@ JMETriggerNTuple::JMETriggerNTuple(const edm::ParameterSet& iConfig)
     this->addBranch(recoPFJetCollectionContainer_i.name() + "_muonMultiplicity",
                     &recoPFJetCollectionContainer_i.vec_muonMultiplicity());
     
-    /*this->addBranch(recoPFJetCollectionContainer_i.name() + "_CandidateEnergy",
+    //uncommented the branches below for timingStudies reco option
+    this->addBranch(recoPFJetCollectionContainer_i.name() + "_CandidateEnergy",
                     &recoPFJetCollectionContainer_i.vec_CandidateEnergy());
     this->addBranch(recoPFJetCollectionContainer_i.name() + "_CandidatePt",
                     &recoPFJetCollectionContainer_i.vec_CandidatePt());
@@ -724,7 +725,6 @@ JMETriggerNTuple::JMETriggerNTuple(const edm::ParameterSet& iConfig)
 
     this->addBranch(recoPFJetCollectionContainer_i.name() + "_CandidateBelongsToJet",
                     &recoPFJetCollectionContainer_i.vec_CandidateBelongsToJet());
-    */
    }
 
   for (auto& patJetCollectionContainer_i : v_patJetCollectionContainer_) {
