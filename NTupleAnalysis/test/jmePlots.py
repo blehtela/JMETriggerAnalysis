@@ -79,6 +79,7 @@ class Histogram:
         self.LegendDraw = ''
 
 def plot(histograms, outputs, title, labels, legXY=[], ratio=False, ratioPadFrac=0.3, xMin=None, xMax=None, yMin=None, yMax=None, logX=False, logY=False, autoRangeX=False, xLabelSize=None, xBinLabels=None):
+    print("[jmePlots.py]: Now in plot function.")   #debugging
 
     xyMinMax = []
     if histograms[0].th1.InheritsFrom('TGraph'):
@@ -363,6 +364,7 @@ def plot(histograms, outputs, title, labels, legXY=[], ratio=False, ratioPadFrac
         output_dirname = os.path.dirname(output_file)
         if not os.path.isdir(output_dirname):
            EXE('mkdir -p '+output_dirname)
+           print("making dir..: ", output_dirname)       # debugging
 
         canvas.SetName(os.path.splitext(output_file)[0])
         canvas.SaveAs(output_file)
@@ -1231,6 +1233,7 @@ def getPlotConfig(key, keyword, inputList):
       #       cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key, Legend='PF ('+inp['Legend']+')', Color=inp['LineColor'])] 
 
        if 'hltAK4CaloJetsCorrected_'  in key:
+          print("TEST TEST TEST (in jmePlots.py)") #DEBUGGING (13.02.2026)
           distributionQuantity = (((key.endswith('_pt') or key.endswith('_eta') or key.endswith('_phi') or key.endswith('_HT'))) or key.endswith('_chargedHadronEnergyFraction') or key.endswith('_chargedHadronMultiplicity') or key.endswith('_neutralHadronEnergyFraction') or key.endswith('_neutralHadronMultiplicity') or key.endswith('_photonEnergyFraction') or key.endswith('_photonMultiplicity') ) 
           cfg.logX=(key.endswith('_pt') or key.endswith('_pt_eff'))
           cfg.logY=((key.endswith('_pt') or key.endswith('_HT')) and not (('RMS' in key) or ('Mean' in key)) )
@@ -2756,6 +2759,7 @@ if __name__ == '__main__':
       KILL(log_prx+'target path to output directory already exists [-o]: '+opts.output)
 
    OUTDIR = os.path.abspath(os.path.realpath(opts.output))
+   print("[jmePlots.py] The outdir is: ", OUTDIR)    #debugging
 
    KEYWORDS = sorted(list(set(opts.keywords)))
 
@@ -2805,9 +2809,11 @@ if __name__ == '__main__':
    ROOT.TGaxis.SetExponentOffset(-Lef+.50*Lef, 0.03, 'y')
 
    label_sample = get_text(Lef+(1-Lef-Rig)*0.00, (1-Top)+Top*0.25, 11, .032, opts.label)
+   print("[jmePlots.py]: label_sample = ", label_sample) #debugging
+   print("[jmePlots.py]: th1Keys = ", th1Keys) #debugging
 
    for _hkey in th1Keys:
-
+       print("[jmePlots.py]: current _hkey = ", _hkey)   #debugging ... never arrives here... are my input files corrupted?
        for _keyw in KEYWORDS:
 
            _plotConfig = getPlotConfig(key=_hkey, keyword=_keyw, inputList=inputList)
