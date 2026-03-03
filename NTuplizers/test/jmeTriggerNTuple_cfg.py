@@ -81,7 +81,16 @@ opts.parseArguments()
 update_jmeCalibs = False  #True   #False #set to true for applying puppi JECs (see below)
 
 if opts.reco == 'default':
-  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_0_0_GRun_configDump_mc import cms, process
+  #from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_0_0_GRun_configDump_mc import cms, process
+  #from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_16_0_0_GRun_configDump_data import cms, process    # 04 Feb 2026, full menu
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_16_0_0_GRun_configDump_data_selectedPaths import cms, process    # 04 Feb 2026, reduced menu
+
+elif opts.reco == 'updatedCAtuningTRK':
+  #from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_16_0_0_GRun_configDump_data import cms, process    # 04 Feb 2026
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_16_0_0_GRun_configDump_data_selectedPaths import cms, process    # 04 Feb 2026, reduced menu
+  # adding updated Tracking with new CA parameter tuning
+  from HLTrigger.Configuration.customiseCARetuning_V2 import customiseCARetuning_V2
+  process = customiseCARetuning_V2(process)
 
 elif opts.reco == 'mixedPFPuppi':
   update_jmeCalibs = True
@@ -471,7 +480,12 @@ if opts.inputFiles:
 else:
   process.source.fileNames = [
     #'/store/mc/Run3Winter25Digi/QCD_Bin-Pt-15to7000_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/FlatPU0to120_142X_mcRun3_2025_realistic_v7-v3/90000/01264d3b-3e70-4995-aeea-ce434d408b6e.root' #not available?
-    '/store/mc/Run3Winter25Digi/QCD_Bin-PT-15to7000_Par-PT-flat2022_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/142X_mcRun3_2025_realistic_v9-v4/2810008/398da565-661f-4a28-b5f7-ec8466ae1ccd.root' #use this instead (added 29.08.2025)
+    #'/store/mc/Run3Winter25Digi/QCD_Bin-PT-15to7000_Par-PT-flat2022_TuneCP5_13p6TeV_pythia8/GEN-SIM-RAW/142X_mcRun3_2025_realistic_v9-v4/2810008/398da565-661f-4a28-b5f7-ec8466ae1ccd.root' #use this instead (added 29.08.2025)
+    #running on Muon data from 2025G
+    #'/store/data/Run2025G/Muon1/RAW/v1/000/398/600/00001/b20e8442-cfde-4fe7-a34a-b1dfd30568ee.root'
+    #'root://cms-xrd-global.cern.ch//store/data/Run2025G/Muon1/RAW/v1/000/398/600/00001/b20e8442-cfde-4fe7-a34a-b1dfd30568ee.root'
+    #'/store/data/Run2025G/Muon1/MINIAOD/PromptReco-v1/000/398/013/00000/87fc2308-2bbf-44b8-9a1b-d4cdf2134712.root' #only TAPE
+    '/store/data/Run2025G/Muon0/RAW/v1/000/398/027/00000/fea7d838-d0dd-4431-820d-54a618f052f5.root' #Disk
   ]
 
 # input EDM files [secondary]
