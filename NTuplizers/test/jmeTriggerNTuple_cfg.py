@@ -92,6 +92,15 @@ elif opts.reco == 'updatedCAtuningTRK':
   from HLTrigger.Configuration.customiseCARetuning_V2 import customiseCARetuning_V2
   process = customiseCARetuning_V2(process)
 
+# TO DO: continue this implementation (update menu, update cmssw)
+elif opts.reco == 'stripUnpackerTRK':  #for the heterogeneous strip unpacker update in Tracking (03.03.2026)
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_16_0_0_GRun_configDump_data_selectedPaths import cms, process    # 04 Feb 2026, reduced menu
+  # adding updated Tracking with strip unpacking offloaded to GPU
+  from HLTrigger.Customisation.customizeHLTfor49800 import customise_case1
+  process = customiseCARetuning_V2(process)
+
+
+
 elif opts.reco == 'mixedPFPuppi':
   update_jmeCalibs = True
   from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_0_0_GRun_configDump_mc import cms, process
