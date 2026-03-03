@@ -23,13 +23,15 @@ def getOutputName(input_dataset):
 
 # This is the job name - change it to your liking.
 #job_name='compareCaloJets' 
-job_name='checkECALmasking_27Oct2025_METincluded' 
+#job_name='checkECALmasking_27Oct2025_METincluded' 
+job_name='checkCAtuning_06Feb2026'
 
 
 # Make sure you use both MINIAOD and RAW in case you want to have the offline inputs as well.
 
 primary_dataset_list = [
-    '/Muon0/Run2025D-PromptReco-v1/MINIAOD'
+    #'/Muon0/Run2025D-PromptReco-v1/MINIAOD'
+    '/Muon0/Run2025G-PromptReco-v1/MINIAOD'
 
     #"/GJ-4Jets_Bin-HT-40to200-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
     #"/GJ-4Jets_Bin-HT-200to400-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Reco-142X_mcRun3_2025_realistic_v9-v2/AODSIM",
@@ -43,7 +45,8 @@ primary_dataset_list = [
 ]
 
 secondary_dataset_list = [
-    '/Muon0/Run2025D-v1/RAW'
+    #'/Muon0/Run2025D-v1/RAW'
+    '/Muon0/Run2025G-v1/RAW'
 
     #"/GJ-4Jets_Bin-HT-40to200-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
     #"/GJ-4Jets_Bin-HT-200to400-PTG-100to200_Par-dRGJ-0p25_TuneCP5_13p6TeV_madgraphMLM-pythia8/Run3Winter25Digi-142X_mcRun3_2025_realistic_v9-v2/GEN-SIM-RAW",
@@ -62,7 +65,8 @@ secondary_dataset_list = [
 # Options for reco argument
 recoOptions=[
     'default',
-    'ECALmasking'
+    'updatedCAtuningTRK'
+    #'ECALmasking'
     #'caloTowers_thresholds'
 ]
 
@@ -100,7 +104,7 @@ config.Data.publication = False
 config.Data.ignoreLocality = False
 config.Data.splitting = 'FileBased' #'Automatic'
 config.Data.unitsPerJob = 1 #200
-config.Data.totalUnits = 1000
+config.Data.totalUnits = 7000 #1000
 
 config.section_('Site')
 #config.Site.storageSite = 'T3_CH_CERNBOX'   #when writing to own EOS
@@ -120,7 +124,8 @@ for primary_dataset,secondary_dataset in zip(primary_dataset_list, secondary_dat
         config.JobType.pyCfgParams = ['reco='+reco]
         #output_requestName = job_name+'_'+getOutputName(primary_dataset.split('/')[2])+reco
         #print("output_requestName=", output_requestName)
-        output_requestName = job_name+'_'+'Muon0-Run2025D-v1'+'_'+reco    # HARD CODED FOR NOW
+        #output_requestName = job_name+'_'+'Muon0-Run2025D-v1'+'_'+reco    # HARD CODED FOR NOW
+        output_requestName = job_name+'_'+'Muon0-Run2025G-v1'+'_'+reco    # HARD CODED FOR NOW
         #output_requestName = job_name+'_'+primary_dataset+'_'+reco
         config.General.requestName = output_requestName
         #config.Data.outLFNDirBase = '/store/user/%s/%s/%s'%(getUsername(),job_name,output_requestName) #personal eos
