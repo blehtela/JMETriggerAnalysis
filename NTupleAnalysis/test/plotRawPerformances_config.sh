@@ -19,11 +19,19 @@ rm -rf ${OUTDIR}
 #    /eos/user/t/tchatzis/samples2023/test_24_winter24pfhc_met/HLT_Run3TRK/harvesting/Run3Winter23_QCD_Pt15to7000_13p6TeV_PU65.root:'2024 PFHC':632:1:20 \
 # -l '#font[61]{CMS} #font[52]{Run-3 Simulation} QCD FlatPt Winter24'
 
+#jmePlots.py -k version_check_mc_raw  \
+#-o ${OUTDIR} \
+#-i /eos/user/t/tchatzis/samples2023/test_24_winter23pfhc_met/HLT_Run3TRK/harvesting/Run3Winter23_VBF_HToInvisible_13p6TeV_PU65.root:'2023 PFHC':1:1:20 \
+#   /eos/user/t/tchatzis/samples2023/test_24_winter24pfhc_met/HLT_Run3TRK/harvesting/Run3Winter23_VBF_HToInvisible_13p6TeV_PU65.root:'2024 PFHC':632:1:20 \
+#-l '#font[61]{CMS} #font[52]{Run-3 Simulation} VBF H #rightarrow Invisible Winter24'
+
+
 jmePlots.py -k version_check_mc_raw  \
 -o ${OUTDIR} \
 -i /eos/user/t/tchatzis/samples2023/test_24_winter23pfhc_met/HLT_Run3TRK/harvesting/Run3Winter23_VBF_HToInvisible_13p6TeV_PU65.root:'2023 PFHC':1:1:20 \
-   /eos/user/t/tchatzis/samples2023/test_24_winter24pfhc_met/HLT_Run3TRK/harvesting/Run3Winter23_VBF_HToInvisible_13p6TeV_PU65.root:'2024 PFHC':632:1:20 \
 -l '#font[61]{CMS} #font[52]{Run-3 Simulation} VBF H #rightarrow Invisible Winter24'
+
+
 
 # jmePlots.py -k version_check_data  \
 # -o ${OUTDIR} \
@@ -76,24 +84,24 @@ BPixVeto_
 MET
 )
 
-for region_name in "${Regions[@]}"; do
-  mkdir -p ${OUTDIR}/NoSelection/${region_name}
-  mv ${OUTDIR}/NoSelection/*${region_name}*.png ${OUTDIR}/NoSelection/${region_name}
-
-  mkdir -p ${OUTDIR}/NoSelection/${region_name}/efficiency
-  mkdir -p ${OUTDIR}/NoSelection/${region_name}/response
-  mkdir -p ${OUTDIR}/NoSelection/${region_name}/resolution
-  mkdir -p ${OUTDIR}/NoSelection/${region_name}/jet_content
-  mkdir -p ${OUTDIR}/NoSelection/${region_name}/kinematics
-  
-  mv ${OUTDIR}/NoSelection/${region_name}/*eff.png ${OUTDIR}/NoSelection/${region_name}/efficiency
-  mv ${OUTDIR}/NoSelection/${region_name}/*Mean*.png ${OUTDIR}/NoSelection/${region_name}/response
-  mv ${OUTDIR}/NoSelection/${region_name}/*RMS*.png ${OUTDIR}/NoSelection/${region_name}/resolution
-  mv ${OUTDIR}/NoSelection/${region_name}/*Multiplicity*.png ${OUTDIR}/NoSelection/${region_name}/jet_content
-  mv ${OUTDIR}/NoSelection/${region_name}/*Fraction*.png ${OUTDIR}/NoSelection/${region_name}/jet_content
-  mv ${OUTDIR}/NoSelection/${region_name}/*.png ${OUTDIR}/NoSelection/${region_name}/kinematics
-done
-
-rm ${OUTDIR}/NoSelection/*.png
+#for region_name in "${Regions[@]}"; do
+#  mkdir -p ${OUTDIR}/NoSelection/${region_name}
+#  mv ${OUTDIR}/NoSelection/*${region_name}*.png ${OUTDIR}/NoSelection/${region_name}
+#
+#  mkdir -p ${OUTDIR}/NoSelection/${region_name}/efficiency
+#  mkdir -p ${OUTDIR}/NoSelection/${region_name}/response
+#  mkdir -p ${OUTDIR}/NoSelection/${region_name}/resolution
+#  mkdir -p ${OUTDIR}/NoSelection/${region_name}/jet_content
+#  mkdir -p ${OUTDIR}/NoSelection/${region_name}/kinematics
+#  
+#  mv ${OUTDIR}/NoSelection/${region_name}/*eff.png ${OUTDIR}/NoSelection/${region_name}/efficiency
+#  mv ${OUTDIR}/NoSelection/${region_name}/*Mean*.png ${OUTDIR}/NoSelection/${region_name}/response
+#  mv ${OUTDIR}/NoSelection/${region_name}/*RMS*.png ${OUTDIR}/NoSelection/${region_name}/resolution
+#  mv ${OUTDIR}/NoSelection/${region_name}/*Multiplicity*.png ${OUTDIR}/NoSelection/${region_name}/jet_content
+#  mv ${OUTDIR}/NoSelection/${region_name}/*Fraction*.png ${OUTDIR}/NoSelection/${region_name}/jet_content
+#  mv ${OUTDIR}/NoSelection/${region_name}/*.png ${OUTDIR}/NoSelection/${region_name}/kinematics
+#done
+#
+#rm ${OUTDIR}/NoSelection/*.png
 
 unset INPDIR region_name Regions OUTDIR pt_region_number
