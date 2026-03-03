@@ -115,6 +115,10 @@ if __name__ == '__main__':
 
        histograms = getTH1sFromTFile(i_inptfile)
 
+       #DEBUGGING
+       print("[jmeAnalysisHarvester.py]: histograms.keys() = ", histograms.keys())
+
+
        if not opts.copy_only:
           ### Histograms for profile of Mean
           for i_h2_key in sorted(histograms.keys()):
