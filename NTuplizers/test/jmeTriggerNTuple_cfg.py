@@ -148,6 +148,13 @@ process.schedule.remove(process.HLT_PFJet40_GPUvsCPU_v8) #added this to avoid er
 if opts.globalTag is not None:
   process.GlobalTag.globaltag = cms.string(opts.globalTag)
 
+
+## ADDED ON 04.03.2026: is this really the place to put it?
+## Muons
+from JMETriggerAnalysis.NTuplizers.userMuons_cff import userMuons
+process, userMuonsCollection = userMuons(process)
+
+
 # remove cms.OutputModule objects from HLT config-dump
 for _modname in process.outputModules_():
     _mod = getattr(process, _modname)
@@ -301,6 +308,7 @@ process.TFileService = cms.Service('TFileService', fileName = cms.string(opts.ou
 
 process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
   TTreeName = cms.string('Events'),
+  muons = cms.InputTag(userMuonsCollection),      # ADDED THIS ON 04.03.2026
   TriggerResults = cms.InputTag('TriggerResults'),
   TriggerResultsFilterOR = cms.vstring(),
   TriggerResultsFilterAND = cms.vstring(),
@@ -439,6 +447,11 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
 
   recoMuonCollections = cms.PSet(
     #hltMuons = cms.InputTag('hltIterL3Muons'), # this collection uses the miniAOD definition muon::isLooseTriggerMuon(reco::Muon)
+  )
+
+  #adding this on 04.03.2026 (in analogy to the jmeTriggerNTuple_miniAOD_cfg.py)
+  patMuonCollections = cms.PSet(
+    offlineMuons = cms.InputTag(userMuonsCollection)
   )
 )
 
