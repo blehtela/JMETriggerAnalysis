@@ -24,7 +24,11 @@ def getOutputName(input_dataset):
 # This is the job name - change it to your liking.
 #job_name='compareCaloJets' 
 #job_name='checkECALmasking_27Oct2025_METincluded' 
-job_name='checkCAtuning_06Feb2026'
+#job_name='checkCAtuning_06Feb2026'
+#job_name='checkStripUnpacker_03Mar2026'
+job_name='checkStripUnpacker_05Mar2026' #this time running with jmeTriggerNTuple_miniAOD_cfg.py
+
+
 
 
 # Make sure you use both MINIAOD and RAW in case you want to have the offline inputs as well.
@@ -65,7 +69,8 @@ secondary_dataset_list = [
 # Options for reco argument
 recoOptions=[
     'default',
-    'updatedCAtuningTRK'
+    'stripUnpackerTRKcase1'
+    #'updatedCAtuningTRK'
     #'ECALmasking'
     #'caloTowers_thresholds'
 ]
@@ -94,7 +99,10 @@ config.General.workArea = job_name
 
 config.section_('JobType')
 config.JobType.pluginName  = 'Analysis'
-config.JobType.psetName = input_file_dir+'jmeTriggerNTuple_cfg.py'  #adjust as needed
+#config.JobType.psetName = input_file_dir+'jmeTriggerNTuple_cfg.py'  #adjust as needed
+config.JobType.psetName = input_file_dir+'jmeTriggerNTuple_miniAOD_cfg.py'  #adjust as needed
+
+
 
 config.JobType.maxMemoryMB = 3000   #2600  #5000   #2500
 config.JobType.allowUndistributedCMSSW = True
