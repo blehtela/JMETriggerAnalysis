@@ -26,8 +26,8 @@ def getOutputName(input_dataset):
 #job_name='checkECALmasking_27Oct2025_METincluded' 
 #job_name='checkCAtuning_06Feb2026'
 #job_name='checkStripUnpacker_03Mar2026'
-job_name='checkStripUnpacker_05Mar2026' #this time running with jmeTriggerNTuple_miniAOD_cfg.py
-
+#job_name='checkStripUnpacker_05Mar2026' #this time running with jmeTriggerNTuple_miniAOD_cfg.py (no. use the one before)
+job_name='checkHPtuning_10Mar2026'
 
 
 
@@ -69,7 +69,8 @@ secondary_dataset_list = [
 # Options for reco argument
 recoOptions=[
     'default',
-    'stripUnpackerTRKcase1'
+    'HPtracksTRK'
+    #'stripUnpackerTRKcase1'
     #'updatedCAtuningTRK'
     #'ECALmasking'
     #'caloTowers_thresholds'
@@ -99,8 +100,8 @@ config.General.workArea = job_name
 
 config.section_('JobType')
 config.JobType.pluginName  = 'Analysis'
-#config.JobType.psetName = input_file_dir+'jmeTriggerNTuple_cfg.py'  #adjust as needed
-config.JobType.psetName = input_file_dir+'jmeTriggerNTuple_miniAOD_cfg.py'  #adjust as needed
+config.JobType.psetName = input_file_dir+'jmeTriggerNTuple_cfg.py'  #adjust as needed
+#config.JobType.psetName = input_file_dir+'jmeTriggerNTuple_miniAOD_cfg.py'  #adjust as needed
 
 
 
