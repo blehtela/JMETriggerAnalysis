@@ -855,6 +855,9 @@ JMETriggerNTuple::JMETriggerNTuple(const edm::ParameterSet& iConfig)
     this->addBranch(patElectronCollectionContainer_i.name() + "_etaSC", &patElectronCollectionContainer_i.vec_etaSC());
   }
 
+  //commenting out the following, leads to compilation errors (issue with ROOT version?)
+  //should not affect anything (but keep the code until i am 100% sure)
+  /*
   // settings for output TFile and TTree
   fs->file().SetCompressionAlgorithm(ROOT::ECompressionAlgorithm::kLZ4);
   fs->file().SetCompressionLevel(4);
@@ -869,6 +872,7 @@ JMETriggerNTuple::JMETriggerNTuple(const edm::ParameterSet& iConfig)
   if (ttree_->GetListOfBranches()->GetEntries() > 0) {
     ttree_->SetAutoFlush(-1024 * 1024 * ttree_->GetListOfBranches()->GetEntries());
   }
+  */
 }
 
 void JMETriggerNTuple::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup) {

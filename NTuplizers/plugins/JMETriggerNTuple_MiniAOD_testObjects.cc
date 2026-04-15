@@ -901,6 +901,7 @@ JMETriggerNTuple_MiniAOD_testObjects::JMETriggerNTuple_MiniAOD_testObjects(const
     this->addBranch(patElectronCollectionContainer_i.name() + "_etaSC", &patElectronCollectionContainer_i.vec_etaSC());
   }
 
+  /*
   // settings for output TFile and TTree
   fs->file().SetCompressionAlgorithm(ROOT::ECompressionAlgorithm::kLZ4);
   fs->file().SetCompressionLevel(4);
@@ -915,6 +916,7 @@ JMETriggerNTuple_MiniAOD_testObjects::JMETriggerNTuple_MiniAOD_testObjects(const
   if (ttree_->GetListOfBranches()->GetEntries() > 0) {
     ttree_->SetAutoFlush(-1024 * 1024 * ttree_->GetListOfBranches()->GetEntries());
   }
+  */
 }
 
 bool JMETriggerNTuple_MiniAOD_testObjects::isGoodJet(const pat::Jet &jet){
