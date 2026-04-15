@@ -6,9 +6,26 @@
 #  --config ./plotsEfficiencies_configs/2025data_config.yaml \
 #  --output_dir /eos/user/t/tchatzis/JetMET_eraC_test3/
 
+#python3 plotEfficienciesDPNote.py \
+#  --input /eos/user/t/tchatzis/DPNoteSubmitterNew/ \
+#  --merged_file /eos/user/t/tchatzis/DPNoteSubmitterNew/merged.root \
+#  --config ./plotsEfficiencies_configs/dpnote_config.yaml \
+#  --output_dir /eos/user/t/tchatzis/DPNotePlotsTest/
+
+
+
+
 python3 plotEfficienciesDPNote.py \
-  --input /eos/user/t/tchatzis/DPNoteSubmitterNew/ \
-  --merged_file /eos/user/t/tchatzis/DPNoteSubmitterNew/merged.root \
-  --config ./plotsEfficiencies_configs/dpnote_config.yaml \
-  --output_dir /eos/user/t/tchatzis/DPNotePlotsTest/
+  --input /eos/user/b/blehtela/STEAM_Mar2026_OUT_20mar2026/JetMET/ \
+  --merged_file /eos/user/b/blehtela/STEAM_Mar2026_OUT_20mar2026/JetMET/JetMETmerged.root \
+  --config ./plotsEfficiencies_configs/2025data_config.yaml \
+  --output_dir /eos/user/b/blehtela/STEAM_Mar2026_OUT_20mar2026/JetMET/
+
+
+python3 plotEfficienciesDPNote.py \
+  --input /eos/user/b/blehtela/STEAM_Mar2026_OUT_20mar2026/Muon/ \
+  --merged_file /eos/user/b/blehtela/STEAM_Mar2026_OUT_20mar2026/Muon/Muonmerged.root \
+  --config ./plotsEfficiencies_configs/2025data_config.yaml \
+  --output_dir /eos/user/b/blehtela/STEAM_Mar2026_OUT_20mar2026/Muon/
+
 
