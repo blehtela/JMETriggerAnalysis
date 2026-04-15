@@ -197,7 +197,7 @@ if __name__ == '__main__':
 
        analyzer.setInputTTree(i_inpFile, i_inpTree)
        print("After setting the input TTree.")
-       analyzer.process(skipEvents, i_maxEvents)
+       analyzer.process(skipEvents, i_maxEvents)   ## <--- this is where the problem happens..
        print("After analyzer.process(skipEvents, i_maxEvents) in run.py.")
 
 
