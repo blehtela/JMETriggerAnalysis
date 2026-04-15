@@ -11,6 +11,8 @@ source env.sh
 
 #boolean for PUPPI vs other efficiency checks
 puppiStudy=false
+tuningCAstudy=false
+hpTRKstudy=true
 
 # Default values
 #BASE_DIR=/eos/user/t/tchatzis/JetTriggers_DPNote/
@@ -33,7 +35,7 @@ if [ "$puppiStudy" = true ]; then
     dataKeys=(
         puppiStudies_142XmixedPFPuppi # USE THIS on eos; testing with one file only
     )
-else
+elif [ "$tuningCAstudy" = true]; then
     echo "Setting directories (input, output, jobs)"
     BASE_DIR=/eos/cms/store/group/phys_jetmet/blehtela/checkCAtuning_06Feb2026/  #/eos/user/b/blehtela/checkECALmasking_25Oct2025/
     #OUT_EOS_DIR=checkCAtuning_10feb2026_OUT         #ECALmasking_27oct2025_OUT
@@ -43,6 +45,32 @@ else
     dataKeys=( 
         checkCAtuning_06Feb2026_Muon0-Run2025G-v1_default
         checkCAtuning_06Feb2026_Muon0-Run2025G-v1_updatedCAtuningTRK
+    )
+elif [ "$hpTRKstudy" = true]; then
+    echo "High Purity TRK study."
+    echo "Setting directories (input, output, jobs)"
+    BASE_DIR=/eos/cms/store/group/phys_jetmet/blehtela/checkHPtuning_10Mar2026/
+    OUT_EOS_DIR=checkHPtuning_10mar2026_OUT
+    JOBS_DIR_NAME=checkHPtuning_10mar2026_JOBDIR
+    dataKeys=( 
+        checkHPtuning_10Mar2026_Muon0-Run2025G-v1_default
+        checkHPtuning_10Mar2026_Muon0-Run2025G-v1_HPtracksTRK
+    )
+else
+    echo "Setting directories (input, output, jobs)"
+    BASE_DIR=/eos/cms/store/group/phys_jetmet/blehtela/checkStripUnpacker_03Mar2026/
+    #OUT_EOS_DIR=checkStripUnpacker_03mar2026_OUT
+    #JOBS_DIR_NAME=checkStripUnpacker_03mar2026_JOBDIR
+    #OUT_EOS_DIR=checkStripUnpacker_03mar2026_OUT_new
+    #JOBS_DIR_NAME=checkStripUnpacker_03mar2026_JOBDIR_new
+    #OUT_EOS_DIR=checkStripUnpacker_03mar2026_OUT_performancesRAW
+    #JOBS_DIR_NAME=checkStripUnpacker_03mar2026_JOBDIR_performancesRAW
+    OUT_EOS_DIR=checkStripUnpacker_08mar2026_OUT_performancesRAW
+    JOBS_DIR_NAME=checkStripUnpacker_08mar2026_JOBDIR_performancesRAW
+  
+    dataKeys=( 
+        checkStripUnpacker_03Mar2026_Muon0-Run2025G-v1_default
+        checkStripUnpacker_03Mar2026_Muon0-Run2025G-v1_stripUnpackerTRKcase1
     )
 fi
 
@@ -66,8 +94,8 @@ resubmit_jobs=0
   #JetMET0_Run2022CV1
 #)
 
-#DRIVER_CONFIG=performances_raw     #efficiencies_raw      #efficiencies_miniaod #update this!!
-DRIVER_CONFIG=efficiencies_raw
+DRIVER_CONFIG=performances_raw     #efficiencies_raw      #efficiencies_miniaod #update this!!
+#DRIVER_CONFIG=efficiencies_raw
 #DRIVER_CONFIG=efficiencies_puppistudies    #for puppi
 # Parse arguments
 while [[ $# -gt 0 ]]; do
