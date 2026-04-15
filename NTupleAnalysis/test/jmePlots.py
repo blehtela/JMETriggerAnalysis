@@ -79,7 +79,7 @@ class Histogram:
         self.LegendDraw = ''
 
 def plot(histograms, outputs, title, labels, legXY=[], ratio=False, ratioPadFrac=0.3, xMin=None, xMax=None, yMin=None, yMax=None, logX=False, logY=False, autoRangeX=False, xLabelSize=None, xBinLabels=None):
-    print("[jmePlots.py]: Now in plot function.")   #debugging
+    #print("[jmePlots.py]: Now in plot function.")   #debugging
 
     xyMinMax = []
     if histograms[0].th1.InheritsFrom('TGraph'):
@@ -1800,6 +1800,121 @@ def getPlotConfig(key, keyword, inputList):
            cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace('hltPFPuppiCorr_', 'offlPFPuppiCorr_'), Legend='OfflineCorr', Color=ROOT.kBlack) if idx==0 else None]
            cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key, Legend='hltPFPuppiCorr'+' [ '+inp['Legend']+' ]')]
 
+
+    ##
+    ## keyword: run3_jme_compareTRK6 (added by Bettina, March 9th 2026, based on run3_jme_compareTRK1)
+    ##
+    elif keyword == 'run3_jme_compareTRK6':
+
+#       if ('_wrt_' not in key_basename) and (not key_basename.endswith('_eff')) and \
+#          (not ('MET' in key_basename and key_basename.endswith('_pt'))) and \
+#          ('pt_over' not in key_basename):
+#          return
+
+       if ('/' in key) and (not key.startswith('NoSelection/')):
+          if ('_pt0' not in key_basename) or key_basename.endswith('pt0_eff') or \
+             key_basename.endswith('pt0') or ('pt0_over' in key_basename):
+             return
+
+       #cfg.legXY = [0.55, 0.40, 0.95, 0.90]
+       #cfg.legXY = [0.50, 0.40, 0.95, 0.90]
+       #cfg.legXY = [0.30, 0.30, 0.95, 0.83]
+
+       #cfg.legXY = [0.30, 0.30, 0.95, 0.69]
+       cfg.legXY = [0.26, 0.26, 0.95, 0.61]
+
+       if 'hltPFMET_' in key:
+         cfg.objLabel = cfg.objLabel.replace('hltPFMET', 'MET')
+         for idx, inp in enumerate(inputList): #maybe this loop should just include hltPF stuff, because offline wont change for either reco option, yep. idx==0 is the default, check it.
+           legTag = ' [ '+inp['Legend']+' ]'
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace('hltPFMET_', 'offlinePFMET_Raw_')     , Legend='Offline PFMET'       , Color=ROOT.kGreen+2) if idx==0 else None]
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace('hltPFMET_', 'offlinePFPuppiMET_Raw_'), Legend='Offline PFPuppiMET'  , Color=ROOT.kPink+1) if idx==0 else None]
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace('hltPFMET_', 'hltCaloMET_')           , Legend='hltCaloMET'          , Color=ROOT.kGray+1) if idx==0 else None]
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace('hltPFMET_', 'hltPFClusterMET_')      , Legend='hltPFClusterMET'     , Color=ROOT.kOrange+2) if idx==0 else None]  #might not have this?
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace('hltPFMET_', 'hltPFMET_')             , Legend='hltPFMET'     +legTag, Color=inp['LineColor'])]  #, Color=ROOT.kBlack)]
+           #cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace('hltPFMET_', 'hltPFPuppiMET_')        , Legend='hltPFPuppiMET'+legTag, Color=ROOT.kRed)] #i think we dont have this in run3. comment out.
+
+
+           #do it like this using the line color from the inputs given in my bash script
+           #cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key, Legend='PF ('+inp['Legend']+')', Color=inp['LineColor'])]
+ 
+
+       elif 'hltAK4PFJets_' in key:
+         baseColl = 'hltAK4PFJets'
+         cfg.objLabel = cfg.objLabel.replace(baseColl, 'AK4')
+         #cfg.legXY = [0.55, 0.50, 0.95, 0.90]
+         for idx, inp in enumerate(inputList):
+           legTag = ' [ '+inp['Legend']+' ]'
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK4CaloJets_')     , Legend='hltAK4CaloJets'          , Color=ROOT.kGray+1) if idx==0 else None] #do we have this?
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK4PFClusterJets_'), Legend='hltAK4PFClusterJets'     , Color=ROOT.kOrange+2)] #do we have this?
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK4PFJets_')       , Legend='hltAK4PFJets'+legTag     , Color=inp['LineColor'])] #, Color=ROOT.kBlack)] #use given colour
+           #cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK4PFPuppiJets_')  , Legend='hltAK4PFPuppiJets'+legTag, Color=ROOT.kRed)] #i think we dont have this in Run3. Comment out.
+         del baseColl, legTag
+
+       elif 'hltAK4PFJetsCorrected_' in key:
+         baseColl = 'hltAK4PFJetsCorrected'
+         cfg.objLabel = cfg.objLabel.replace(baseColl, 'AK4+JECs')
+         #cfg.legXY = [0.55, 0.50, 0.95, 0.90]
+         cfg.logX=(key.endswith('_pt') or key.endswith('_pt_eff'))
+         #cfg.logY=((key.endswith('_pt') or key.endswith('_HT')) and not (('RMS' in key) or ('Mean' in key)) )
+         for idx, inp in enumerate(inputList):
+           legTag = ' [ '+inp['Legend']+' ]'
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'offlineAK4PFPuppiJetsCorrected_'), Legend='offlineAK4PFPuppiJetsCorrected', Color=ROOT.kPink+1) if idx==0 else None] #offline doesnt change
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK4CaloJetsCorrected_')       , Legend='hltAK4CaloJetsCorrected'       , Color=ROOT.kGray+1) if idx==0 else None]  #do we have this? yep
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK4PFJetsCorrected_')         , Legend='hltAK4PFJetsCorrected'+legTag  , Color=inp['LineColor'])] #, Color=ROOT.kBlack)]
+           #cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK4PFPuppiJets_')             , Legend='hltAK4PFPuppiJets'+legTag      , Color=ROOT.kRed)] #not in standard menu run3
+         del baseColl, legTag
+
+       elif 'hltAK8PFJets_' in key:
+         baseColl = 'hltAK8PFJets'
+         cfg.objLabel = cfg.objLabel.replace(baseColl, 'AK8')
+         #cfg.legXY = [0.55, 0.40, 0.95, 0.90]
+         for idx, inp in enumerate(inputList):
+           legTag = ' [ '+inp['Legend']+' ]'
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK8CaloJets_')     , Legend='hltAK8CaloJets'          , Color=ROOT.kGray+1)]
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK8PFClusterJets_'), Legend='hltAK8PFClusterJets'     , Color=ROOT.kOrange+2)]
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK8PFJets_')       , Legend='hltAK8PFJets'     +legTag, Color=inp['LineColor'])] #, Color=ROOT.kBlack)]
+           #cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK8PFPuppiJets_')  , Legend='hltAK8PFPuppiJets'+legTag, Color=ROOT.kRed)]
+         del baseColl, legTag
+
+       elif 'hltAK8PFJetsCorrected_' in key:
+         baseColl = 'hltAK8PFJetsCorrected'
+         cfg.objLabel = cfg.objLabel.replace(baseColl, 'AK8+JECs')
+         #cfg.legXY = [0.55, 0.50, 0.95, 0.90]
+         for idx, inp in enumerate(inputList):
+           legTag = ' [ '+inp['Legend']+' ]'
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'offlineAK8PFPuppiJetsCorrected_'), Legend='offlineAK8PFPuppiJetsCorrected', Color=ROOT.kPink+1) if idx==0 else None]
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK8CaloJetsCorrected_')       , Legend='hltAK8CaloJetsCorrected'       , Color=ROOT.kGray+1)]
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK8PFJetsCorrected_')         , Legend='hltAK8PFJetsCorrected'+legTag  , Color=inp['LineColor'])] #, Color=ROOT.kBlack)]
+           #cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltAK8PFPuppiJets_')             , Legend='hltAK8PFPuppiJets'+legTag      , Color=ROOT.kRed)]
+         del baseColl, legTag
+
+       elif 'MatchedToPF_' in key:
+         baseColl = 'PF'
+         cfg.objLabel = cfg.objLabel.replace(baseColl, 'Reco(w/o JECs)')
+         #cfg.legXY = [0.55, 0.50, 0.95, 0.90]
+         for idx, inp in enumerate(inputList):
+           legTag = ' [ '+inp['Legend']+' ]'
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltCalo_')     , Legend='Calo'          , Color=ROOT.kGray+1)]
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltPFCluster_'), Legend='PFCluster'     , Color=ROOT.kOrange+2)]
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltPF_')       , Legend='PF'     +legTag, Color=inp['LineColor'])] #, Color=ROOT.kBlack)]
+           #cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltPFPuppi_')  , Legend='PFPuppi'+legTag, Color=ROOT.kRed)]
+         del baseColl, legTag
+
+       elif 'MatchedToPFCorr_' in key:  #how do i get this category?
+         baseColl = 'PFCorr'
+         cfg.objLabel = cfg.objLabel.replace(baseColl, 'Reco(+JECs)')
+         #cfg.legXY = [0.55, 0.50, 0.95, 0.90]
+         for idx, inp in enumerate(inputList):
+           legTag = ' [ '+inp['Legend']+' ]'
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'offlPFPuppiCorr_') , Legend='OfflineCorr'       , Color=ROOT.kPink+1)]
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltCaloCorr_')     , Legend='CaloCorr'          , Color=ROOT.kGray+1)]
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltPFClusterCorr_'), Legend='PFClusterCorr'     , Color=ROOT.kOrange+2)]
+           cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltPFCorr_')       , Legend='PFCorr'     +legTag, Color=inp['LineColor'])] #, Color=ROOT.kBlack)]
+           #cfg.hists += [getHistogram(plotCfg=cfg, inputDict=inp, key=key.replace(baseColl+'_', 'hltPFPuppi_')      , Legend='PFPuppi'    +legTag, Color=ROOT.kRed)]
+         del baseColl, legTag
+
+
     ###
     ### run3_jme_comparePF
     ###
@@ -2810,10 +2925,10 @@ if __name__ == '__main__':
 
    label_sample = get_text(Lef+(1-Lef-Rig)*0.00, (1-Top)+Top*0.25, 11, .032, opts.label)
    print("[jmePlots.py]: label_sample = ", label_sample) #debugging
-   print("[jmePlots.py]: th1Keys = ", th1Keys) #debugging
+   #print("[jmePlots.py]: th1Keys = ", th1Keys) #debugging
 
    for _hkey in th1Keys:
-       print("[jmePlots.py]: current _hkey = ", _hkey)   #debugging ... never arrives here... are my input files corrupted?
+       #print("[jmePlots.py]: current _hkey = ", _hkey)   #debugging ... never arrives here... are my input files corrupted?
        for _keyw in KEYWORDS:
 
            _plotConfig = getPlotConfig(key=_hkey, keyword=_keyw, inputList=inputList)
