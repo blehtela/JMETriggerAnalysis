@@ -25,24 +25,49 @@ puppiStudy=false
 #OUT_EOS_DIR=puppiTests_15Oct2025_V6_newTEST
 ###OUT_EOS_DIR=xpuppiTests_15Oct2025_jetTriggers
 
-if [ "$puppiStudy" = true ]; then
-    echo "Setting PUPPI study directories (input, output, jobs)"
-    BASE_DIR=/eos/user/b/blehtela/puppiStudies/
-    OUT_EOS_DIR=puppiTests_15Oct2025_jetTriggers
-    JOBS_DIR_NAME=PuppiTests_15Oct2025_jetTriggers_JOBDIR
-    dataKeys=(
-        puppiStudies_142XmixedPFPuppi # USE THIS on eos; testing with one file only
-    )
-else
-    echo "Setting directories (input, output, jobs)"
-    BASE_DIR=/eos/user/b/blehtela/checkECALmasking_25Oct2025/
-    OUT_EOS_DIR=ECALmasking_27oct2025_OUT
-    JOBS_DIR_NAME=ECALmasking_27oct2025_JOBDIR
-    dataKeys=( 
-        checkECALmasking_25Oct2025_Muon0-Run2025D-v1_default
-        checkECALmasking_25Oct2025_Muon0-Run2025D-v1_ECALmasking
-    )
-fi
+
+#if [ "$puppiStudy" = true ]; then
+#    echo "Setting PUPPI study directories (input, output, jobs)"
+#    BASE_DIR=/eos/user/b/blehtela/puppiStudies/
+#    OUT_EOS_DIR=puppiTests_15Oct2025_jetTriggers
+#    JOBS_DIR_NAME=PuppiTests_15Oct2025_jetTriggers_JOBDIR
+#    dataKeys=(
+#        puppiStudies_142XmixedPFPuppi # USE THIS on eos; testing with one file only
+#    )
+#else
+#    echo "Setting directories (input, output, jobs)"
+#    BASE_DIR=/eos/user/b/blehtela/checkECALmasking_25Oct2025/
+#    OUT_EOS_DIR=ECALmasking_27oct2025_OUT
+#    JOBS_DIR_NAME=ECALmasking_27oct2025_JOBDIR
+#    dataKeys=( 
+#        checkECALmasking_25Oct2025_Muon0-Run2025D-v1_default
+#        checkECALmasking_25Oct2025_Muon0-Run2025D-v1_ECALmasking
+#    )
+#fi
+
+#for STEAM 20.03.2026
+echo "Setting directories (input, output, jobs)"
+BASE_DIR=/eos/user/b/blehtela/CoffTeaNTuples_v1602p1_Run2025G_Run2026AB_20260318T1131/
+OUT_EOS_DIR=STEAM_Mar2026_OUT_20mar2026
+JOBS_DIR_NAME=STEAM_Mar2026_JOBDIR_20mar2026
+dataKeys=( 
+    JetMET0_Run2025G
+    JetMET1_Run2025G
+    JetMET0_Run2026A
+    JetMET1_Run2026A
+    JetMET0_Run2026B
+    JetMET1_Run2026B
+    Muon0_Run2025G
+    Muon1_Run2025G
+    Muon0_Run2026A
+    Muon1_Run2026A
+    Muon2_Run2026A
+    Muon3_Run2026A
+    Muon0_Run2026B
+    Muon1_Run2026B
+    Muon2_Run2026B
+    Muon3_Run2026B
+)
 
 echo "$BASE_DIR"
 
@@ -64,7 +89,7 @@ resubmit_jobs=0
   #JetMET0_Run2022CV1
 #)
 
-DRIVER_CONFIG=efficiencies_raw      #efficiencies_miniaod #update this!!
+DRIVER_CONFIG=efficiencies_2026_miniaod     #efficiencies_raw      #efficiencies_miniaod #update this!!
 #DRIVER_CONFIG=efficiencies_puppistudies    #for puppi
 # Parse arguments
 while [[ $# -gt 0 ]]; do

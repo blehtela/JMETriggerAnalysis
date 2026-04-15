@@ -11,8 +11,11 @@ source env.sh
 # Default values
 #OUT_EOS_DIR="/DPNoteSubmitter/"
 #OUT_EOS_DIR="/puppiTests_15Oct2025_V6_newTEST/"
-OUT_EOS_DIR="/puppiTests_15Oct2025_jetTriggers/"
-OUTPUT_FILE_NAME="dataharvested_jetTriggers_myfork_15Oct2025"
+#OUT_EOS_DIR="/puppiTests_15Oct2025_jetTriggers/"
+#OUTPUT_FILE_NAME="dataharvested_jetTriggers_myfork_15Oct2025"
+OUT_EOS_DIR="/STEAM_Mar2026_OUT_20mar2026/"
+OUTPUT_FILE_NAME="dataharvested_steam_20mar2026"
+
 SKIP_HARVEST=false
 
 # Parse arguments
