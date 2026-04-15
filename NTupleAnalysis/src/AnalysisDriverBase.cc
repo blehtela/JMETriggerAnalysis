@@ -80,11 +80,16 @@ int AnalysisDriverBase::setInputTTree(const std::string& tfile, const std::strin
 
 void AnalysisDriverBase::process(const Long64_t firstEntry, const Long64_t maxEntries) {
   //  this->init();
+  std::cout << "[AnalysisDriverBase] maxEntries = " << maxEntries << std::endl << std::flush; //debugging (08.03.2026)
+  std::cout << "[AnalysisDriverBase] theReader_GetEntries = " << theReader_->GetEntries() << std::endl << std::flush; //debugging (08.03.2026)
+ 
 
   if ((theReader_.get() == nullptr) || theReader_->IsInvalid()) {
     throw std::runtime_error("AnalysisDriverBase::process -- invalid TTreeReader");
   } else {
     if (maxEntries != 0) {
+      std::cout << "maxEntries = " << maxEntries << std::endl << std::flush; //debugging (08.03.2026)
+      std::cout << "theReader_GetEntries = " << theReader_->GetEntries() << std::endl << std::flush; //debugging (08.03.2026)
       auto const totalEntries((maxEntries >= 0) ? maxEntries : theReader_->GetEntries());
       auto const lastEntry(firstEntry + totalEntries - 1);
 
