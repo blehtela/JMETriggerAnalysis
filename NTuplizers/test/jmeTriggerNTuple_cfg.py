@@ -99,6 +99,15 @@ elif opts.reco == 'stripUnpackerTRKcase1':  #for the heterogeneous strip unpacke
   from HLTrigger.Configuration.customizeHLTfor49800 import customise_case1
   process = customise_case1(process)
 
+elif opts.reco == 'HPtracksTRK':  #for the High Purity Tracks for Classifier Tuning Jira-Ticket in Tracking (10.03.2026)
+  from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_16_0_0_GRun_configDump_data_selectedPaths import cms, process    # reduced menu (updated 03.03.2026)
+  # adding updated Tracking with strip unpacking offloaded to GPU
+  from HLTrigger.Configuration.customize_iter0_hp_tuning_same_fake import customize_for_hp_tuning
+  process = customize_for_hp_tuning(process)
+
+# added on 15.04.2026 for private check of CMSHLT-3769 ticket (Alpaka, GPU)
+
+
 elif opts.reco == 'mixedPFPuppi':
   update_jmeCalibs = True
   from JMETriggerAnalysis.Common.configs.HLT_dev_CMSSW_15_0_0_GRun_configDump_mc import cms, process
@@ -447,7 +456,7 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
 
   recoMuonCollections = cms.PSet(
     #hltMuons = cms.InputTag('hltIterL3Muons'), # this collection uses the miniAOD definition muon::isLooseTriggerMuon(reco::Muon)
-  )
+  ),
 
   #adding this on 04.03.2026 (in analogy to the jmeTriggerNTuple_miniAOD_cfg.py)
   patMuonCollections = cms.PSet(
