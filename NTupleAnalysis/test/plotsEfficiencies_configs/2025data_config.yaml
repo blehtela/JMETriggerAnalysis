@@ -15,41 +15,51 @@ triggers_list:
 
 comparisonPeriods:
   eras_comparison:
-    2024I:
-      label: "2024I"
+    2025G:
+      label: "2025G"
       lumi: 0.0
-    2025C: 
-      label: "2025C"
+    2026A: 
+      label: "2026A"
       lumi: 0.0
-    2025D: 
-      label: "2025D"
+    2026B: 
+      label: "2026B"
       lumi: 0.0
-    2025E:
-      label: "2025E"
-      lumi: 0.0
-    2025F:
-      label: "2025F"
-      lumi: 0.0
-  2025C_v1vsv2:
-    2025CV1: 
-      label: "2025Cv1"
-      lumi: 0.0
-    2025CV2: 
-      label: "2025Cv2"
-      lumi: 0.0
-    2025C: 
-      label: "2025C"
-      lumi: 0.0
-  eraD_IBCoff:
-    2025D_beforeIBCoff: 
-      label: "2025D w/o IBC off"
-      lumi: 0.0
-    2025D_afterIBCoff: 
-      label: "2025D w/ IBC off"
-      lumi: 0.0
-    2025D: 
-      label: "2025D"
-      lumi: 0.0
+ 
+#    2024I:
+#      label: "2024I"
+#      lumi: 0.0
+#    2025C: 
+#      label: "2025C"
+#      lumi: 0.0
+#    2025D: 
+#      label: "2025D"
+#      lumi: 0.0
+#    2025E:
+#      label: "2025E"
+#      lumi: 0.0
+#    2025F:
+#      label: "2025F"
+#      lumi: 0.0
+#  2025C_v1vsv2:
+#    2025CV1: 
+#      label: "2025Cv1"
+#      lumi: 0.0
+#    2025CV2: 
+#      label: "2025Cv2"
+#      lumi: 0.0
+#    2025C: 
+#      label: "2025C"
+#      lumi: 0.0
+#  eraD_IBCoff:
+#    2025D_beforeIBCoff: 
+#      label: "2025D w/o IBC off"
+#      lumi: 0.0
+#    2025D_afterIBCoff: 
+#      label: "2025D w/ IBC off"
+#      lumi: 0.0
+#    2025D: 
+#      label: "2025D"
+#      lumi: 0.0
 
 # years_comparison:
 #   2022: "2022"
