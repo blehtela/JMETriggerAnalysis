@@ -187,6 +187,7 @@ void JMETriggerAnalysisDriverRun3::init(){
     {"offlinePFPuppiMET_Type1", {{"GEN", "genMETTrue"}}},
   };
   
+  //04.03.2026: commented in the following, because i think it is needed to create sensible histos (still testing)
   /*
   jetCategoryLabels_ = {
     "_EtaIncl",
@@ -237,19 +238,20 @@ void JMETriggerAnalysisDriverRun3::init(){
   };
 
   runPeriods = {
-    "2022",
-    "2023",
-    "2024",
-    "2023_eraC_beforeHCALOffline",
-    "2023_eraC_afterHCALOffline",
-    "2023_eraD",
-    "2024_beforeHLTJECs",
-    "2024_HLTJECs",
-    "2024_HCALRespCorrs1",
-    "2024_HCALRespCorrs2",
-    "2024_HCALRespCorrs3",
-    "2024_beforeFPix",
-    "2024_FPix"
+    //"2022",
+    //"2023",
+    //"2024",
+    //"2023_eraC_beforeHCALOffline",
+    //"2023_eraC_afterHCALOffline",
+    //"2023_eraD",
+    //"2024_beforeHLTJECs",
+    //"2024_HLTJECs",
+    //"2024_HCALRespCorrs1",
+    //"2024_HCALRespCorrs2",
+    //"2024_HCALRespCorrs3",
+    //"2024_beforeFPix",
+    //"2024_FPix",
+    "2025"        //added on 04.03.2026, commented out the rest
   };
 
   lightVersion = true; // with this provides very minimal output for efficiencies calculations only. It will contain only offline quantities in the output directories with minimal info, needed for efficiencies.
@@ -276,7 +278,7 @@ void JMETriggerAnalysisDriverRun3::init(){
   "HLT_PFJetFwd320_HLTDenominatorPathAccept",
   "HLT_PFJetFwd400_HLTPathAccept",
   "HLT_PFJetFwd400_HLTDenominatorPathAccept",
-  //"HLT_PFJet60"
+  //"HLT_PFJet60" //<--- why not include these paths? (question on 04.03.2026)
   //"HLT_PFJet80",
   //"HLT_PFJet110",
   //"HLT_PFJet140",
@@ -320,10 +322,10 @@ void JMETriggerAnalysisDriverRun3::init(){
   };
 
   mettriggers = {
-  // "HLT_PFMET120_PFMHT120_IDTight_HLTPathAccept",
-  // "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HLTPathAccept",
+  "HLT_PFMET120_PFMHT120_IDTight_HLTPathAccept",                //included on 04.03.2026
+  "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_HLTPathAccept",        //included on 04.03.2026
   // "HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_FilterHF_HLTPathAccept",
-  // "HLT_IsoMu27_HLTPathAccept", # For MET triggers just IsoMu27 can be used as reference.
+  "HLT_IsoMu27_HLTPathAccept", //# For MET triggers just IsoMu27 can be used as reference. //included on 04.03.2026
   };
   */
 //  ______             _      _   _ _     _                                      
@@ -454,6 +456,10 @@ void JMETriggerAnalysisDriverRun3::init(){
 
 void JMETriggerAnalysisDriverRun3::analyze(){
 
+  //testing, debugging
+  //std::cout << "[JMETriggerAnalysisDriverRun3.cc]: TESTING OUTPUT in start of analyze() function." << std::endl << std::flush;
+ 
+
   // for data to use also the IsoMu27 (works only with muon dataset)
   // all events analyzed must fullfill the iso muon requirement
   if(hasTTreeReaderValue("HLT_IsoMu27") && !value<bool>("HLT_IsoMu27")){  //use this for the ECALmasking investigation (done on Muon0)
@@ -491,9 +497,10 @@ void JMETriggerAnalysisDriverRun3::analyze(){
       fhDataAK4Jets.matches.emplace_back(fillHistoDataJets::Match(jetLabelRefs.first, jetLabelRefs.second, jetPt2, maxAK4JetDeltaRmatchRef));
     }
     if (!useOnlyTriggers){
-      std::cout << "fillHistograms_Jets if (!useOnlyTriggers): before FIRST occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
+      //std::cout << "[JMETriggerAnalysisDriverRun3.cc]: TESTING OUTPUT." << std::endl << std::flush;
+      //std::cout << "fillHistograms_Jets if (!useOnlyTriggers): before FIRST occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
       fillHistograms_Jets("NoSelection", fhDataAK4Jets, wgt, lightVersion);
-      std::cout << "fillHistograms_Jets if (!useOnlyTriggers): after FIRST occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
+      //std::cout << "fillHistograms_Jets if (!useOnlyTriggers): after FIRST occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
     }
     
 
@@ -511,7 +518,7 @@ void JMETriggerAnalysisDriverRun3::analyze(){
       }
       if (!useOnlyRunPeriods){
         fillHistograms_Jets(selLabel, fhDataAK4JetsNew, wgt, lightVersion);
-        std::cout << "fillHistograms_Jets if (!useOnlyTriggers): SECOND occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
+        //std::cout << "fillHistograms_Jets if (!useOnlyTriggers): SECOND occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
       }
       // fill different run periods
       for(auto const& runPeriodLabel : runPeriods){
@@ -533,7 +540,7 @@ void JMETriggerAnalysisDriverRun3::analyze(){
       }
       if (!useOnlyRunPeriods){
         fillHistograms_Jets(selLabel, fhDataAK4Jets, wgt, lightVersion);
-        std::cout << "fillHistograms_Jets if (!useOnlyTriggers): THIRD occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
+        //std::cout << "fillHistograms_Jets if (!useOnlyTriggers): THIRD occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
       }
       // fill different run periods
       for(auto const& runPeriodLabel : runPeriods){
@@ -573,11 +580,12 @@ void JMETriggerAnalysisDriverRun3::analyze(){
     }
     if (!useOnlyTriggers){
       fillHistograms_Jets("NoSelection", fhDataAK8Jets, wgt);
-      std::cout << "fillHistograms_Jets if (!useOnlyTriggers): FOURTH occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
+      //std::cout << "fillHistograms_Jets if (!useOnlyTriggers): FOURTH occurrence in JMETriggerAnalysisDriverRun3.cc" << std::endl << std::flush;
     }
   }
 
   // MET
+  //std::cout << "\n--------------------------- Missing Transverse Energy -------------------------" << std::endl << std::flush; //debugging
   for(auto const& metLabel : labelMap_MET_){
     isOffline = (metLabel.first.find("offline")!=std::string::npos);
     if (lightVersion and !isOffline) continue;
@@ -588,21 +596,23 @@ void JMETriggerAnalysisDriverRun3::analyze(){
       fhDataMET.matches.emplace_back(fillHistoDataMET::Match(metRefs.first, metRefs.second));
     }
     if (!useOnlyTriggers){
-      std::cout << "HERE trying to call fillHistograms_MET" << std::endl << std::flush;
+      //std::cout << "\n[JMETriggerAnalysisDriverRun3.cc]: current metLabel.first = " << metLabel.first << std::endl << std:: flush; //13.03.2026, debugging
+      //std::cout << "[JMETriggerAnalysisDriverRun3.cc]: HERE trying to call fillHistograms_MET (1)" << std::endl << std::flush;
       fillHistograms_MET("NoSelection", fhDataMET, wgt);
+      //std::cout << "[JMETriggerAnalysisDriverRun3.cc]: After first attempt to call fillHistograms_MET (1)" << std::endl << std::flush; //13.03.2026, debugging
     }
     for(auto const& selLabel : mettriggers){
       auto const hltTrig = hasTTreeReaderValue(selLabel) ? value<bool>(selLabel) : false;//hltMETTrigger(selLabel);
       if(hltTrig){
         if (!useOnlyRunPeriods){
-          std::cout << "HERE trying to call fillHistograms_MET (2)" << std::endl << std::flush;
+          //std::cout << "HERE trying to call fillHistograms_MET (2)" << std::endl << std::flush;
           fillHistograms_MET(selLabel, fhDataMET, wgt, lightVersion);
         }
         // fill different run periods
         for(auto const& runPeriodLabel : runPeriods){
           auto const runPer = hasTTreeReaderValue("run") ? runPeriod(runPeriodLabel) : false;
           if(runPer){
-            std::cout << "HERE trying to call fillHistograms_MET (3)" << std::endl << std::flush;
+            //std::cout << "HERE trying to call fillHistograms_MET (3)" << std::endl << std::flush;
             fillHistograms_MET(selLabel+"_"+runPeriodLabel, fhDataMET, wgt, lightVersion);
           }
         }
@@ -612,7 +622,7 @@ void JMETriggerAnalysisDriverRun3::analyze(){
     for(auto const& selLabel : puintervals){
       auto const puInt = hasTTreeReaderValue("pileupInfo_BX0_numPUInteractions") ? pileupintervals(selLabel) : false;
       if(puInt){
-        std::cout << "HERE trying to call fillHistograms_MET (4)" << std::endl << std::flush;
+        //std::cout << "HERE trying to call fillHistograms_MET (4)" << std::endl << std::flush;
         fillHistograms_MET(selLabel, fhDataMET, wgt);
       }
     }
@@ -706,6 +716,23 @@ bool JMETriggerAnalysisDriverRun3::runPeriod(std::string const& key) const {
   else if ( key == "2025CV2" ) return ( runNumber_ > 393111	and runNumber_ < 393609 ); // In CV2 create a drop in responses in HF 
   else if ( key == "2025D_beforeIBCoff" ) return ( runNumber_ > 394286 and runNumber_ < 394790); // big MET rate drop, small rate drop in Fwd  // Prompt JECs update start of Era D: 394431
   else if ( key == "2025D_afterIBCoff") return ( runNumber_ > 394790 and runNumber_ < 395967 ); 
+  //to do: add also 2025E and Fv1 and Fv2 and G - done.
+  else if ( key == "2025E") return ( runNumber_ >= 395968 and runNumber_ <= 396597 ); //added on 04.03.2026
+  else if ( key == "2025F") return ( runNumber_ >= 396598 and runNumber_ <= 397853 ); //added on 04.03.2026
+  else if ( key == "2025G") return ( runNumber_ > 397853 and runNumber_ < 398904 ); //added on 04.03.2026, start: 397854, end (incl): 398903
+  // --- for 2026
+  else if ( key == "2026A") return ( runNumber_ >= 401600 and runNumber_ <= 401836 ); //added on 20.03.2026
+  else if ( key == "2026B") return ( runNumber_ >= 401837 and runNumber_ <= 402513 ); //added on 20.03.2026 //roughly HCAL resp corrs. started here (401804)
+  //else if ( key == "2026A_beforeTRKalign") return ( runNumber_ >= 401600 and runNumber_ < 401674 ); //added on 20.03.2026
+  //else if ( key == "2026A_afterTRKalign") return ( runNumber_ >= 401674 and runNumber_<  401837 ); //added on 20.03.2026
+  //else if ( key == "2026B_beforeECALintercalib") return ( runNumber_ >= 401837 and runNumber_ < 402029 ); //added on 20.03.2026
+  //else if ( key == "2026B_afterECAL_beforeHCALpedestals") return ( runNumber_ >= 402029 and runNumber_ < 402066 ); //added on 20.03.2026
+  //else if ( key == "2026B_afterHCALpedestals") return ( runNumber_ >= 402066 ); //added on 20.03.2026
+  else if ( key == "2026C") return ( runNumber_ >= 402514 ); //added on 08.04.2026
+
+  //tracker alignment: from 401674
+  //hcal pedestals: from  402066 (17th of March?)
+  //ecal intercalib const: from 402029
   else
     throw std::runtime_error("JMETriggerAnalysisDriverRun3::runPeriod(\""+key+"\") -- invalid key");
   return false;
