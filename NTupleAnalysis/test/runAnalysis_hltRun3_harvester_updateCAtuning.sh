@@ -15,10 +15,22 @@ source env.sh
 
 #OUT_EOS_DIR="/checkCAtuning_06Feb2026/"
 #OUT_EOS_DIR="/checkCAtuning_06Feb2026/checkCAtuning_06Feb2026_Muon0-Run2025G-v1_default/"              # <-- run first with this
-OUT_EOS_DIR="/checkCAtuning_06Feb2026/checkCAtuning_06Feb2026_Muon0-Run2025G-v1_updatedCAtuningTRK/"   # <-- run then with this
+#OUT_EOS_DIR="/checkCAtuning_06Feb2026/checkCAtuning_06Feb2026_Muon0-Run2025G-v1_updatedCAtuningTRK/"   # <-- run then with this
+#OUT_EOS_DIR="/checkStripUnpacker_03Mar2026/checkStripUnpacker_08mar2026_OUT_performancesRAW/checkStripUnpacker_03Mar2026_Muon0-Run2025G-v1_default/"  # <-- run first with this
+#OUT_EOS_DIR="/checkStripUnpacker_03Mar2026/checkStripUnpacker_08mar2026_OUT_performancesRAW/checkStripUnpacker_03Mar2026_Muon0-Run2025G-v1_stripUnpackerTRKcase1/"   # <-- run then with this
+
+#OUT_EOS_DIR="/checkHPtuning_10Mar2026/checkHPtuning_13mar2026_OUT/checkHPtuning_10Mar2026_Muon0-Run2025G-v1_default/"  # <-- run first with this
+OUT_EOS_DIR="/checkHPtuning_10Mar2026/checkHPtuning_13mar2026_OUT/checkHPtuning_10Mar2026_Muon0-Run2025G-v1_HPtracksTRK/"   # <-- run then with this
+
+
 
 #OUTPUT_FILE_NAME="dataharvested_checkCAtuning_10Feb2026"
-OUTPUT_FILE_NAME="dataharvested_checkCAtuning_11Feb2026"
+#OUTPUT_FILE_NAME="dataharvested_checkCAtuning_11Feb2026"
+#OUTPUT_FILE_NAME="dataharvested_checkStripUnpacker_08Mar2026_default"
+#OUTPUT_FILE_NAME="dataharvested_checkStripUnpacker_08Mar2026_stripUnpackerTRKcase1"
+
+#OUTPUT_FILE_NAME="dataharvested_checkHPtracks_13Mar2026_default"
+OUTPUT_FILE_NAME="dataharvested_checkHPtracks_13Mar2026_HPtracksTRK"
 SKIP_HARVEST=false
 
 # Parse arguments
@@ -72,13 +84,17 @@ fi
 
 ## Merge Jobs with hadd
 echo "Merging all ROOT files into: ${INPUT_DIR}/${OUTPUT_FILE_NAME}.root"
-hadd "${INPUT_DIR}/${OUTPUT_FILE_NAME}.root" $ROOT_FILES
+#hadd "${INPUT_DIR}/${OUTPUT_FILE_NAME}.root" $ROOT_FILES
+hadd -j 8 "${INPUT_DIR}${OUTPUT_FILE_NAME}.root" $ROOT_FILES
+
+
 
 ## Harvest i.e. create responses, matching efficiency etc
 if [ "$SKIP_HARVEST" = true ]; then
     echo "Skipping harvesting step."
 else
     echo "Harvesting..."
-    jmeAnalysisHarvester.py -l 0 -i "${INPUT_DIR}/${OUTPUT_FILE_NAME}.root" -o "${INPUT_DIR}/harvesting"
+    #jmeAnalysisHarvester.py -l 0 -i "${INPUT_DIR}/${OUTPUT_FILE_NAME}.root" -o "${INPUT_DIR}/harvesting"
+    jmeAnalysisHarvester.py -l 0 -i "${INPUT_DIR}/${OUTPUT_FILE_NAME}.root" -o "${INPUT_DIR}harvesting"
     #jmeAnalysisHarvester.py -l 0 -i "${INPUT_DIR}/${OUTPUT_FILE_NAME}.root" -o "${INPUT_DIR}/harvesting/outfile.root"    #trying to debug...
 fi
