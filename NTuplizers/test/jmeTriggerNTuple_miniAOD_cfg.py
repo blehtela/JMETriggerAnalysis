@@ -96,6 +96,7 @@ process.load('Configuration.StandardSequences.MagneticField_cff')
 
 update_jmeCalibs = False
 
+
 ###
 ### PoolSource (EDM input)
 ###
@@ -409,8 +410,8 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple_MiniAOD',
 
   recoPFJetCollections = cms.PSet(
 
-    #hltAK4PFJets = cms.InputTag('hltAK4PFJets'),
-    #hltAK4PFJetsCorrected = cms.InputTag('hltAK4PFJetsCorrected'),
+    #hltAK4PFJets = cms.InputTag('hltAK4PFJets'),                        #keep them on 05.03.2026
+    #hltAK4PFJetsCorrected = cms.InputTag('hltAK4PFJetsCorrected'),      #keep them on 05.03.2026
 
     #hltAK4PFCHSJets = cms.InputTag('hltAK4PFCHSJets'),
     #hltAK4PFCHSJetsCorrected = cms.InputTag('hltAK4PFCHSJetsCorrected'),
@@ -663,16 +664,19 @@ else:
       # "/store/data/Run2024D/JetMET1/MINIAOD/PromptReco-v1/000/380/567/00000/7727ca8e-af85-4b14-95ad-7f08feaafe72.root",
       # "/store/data/Run2024D/JetMET1/MINIAOD/PromptReco-v1/000/380/620/00000/6fb8c3d9-625d-4af7-be14-b62858bfb066.root",
     
-    "/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/945/00000/106b7dab-0466-436c-9bbc-fc5d775c2b0b.root",
-    "/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/945/00000/16f7a7a8-ed8b-47fd-99ef-af5d1ae192e0.root",
-    "/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/947/00000/d878fa5e-9428-4561-a505-32146cd83aaf.root",
-    "/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/945/00000/ffafb0c2-2e05-499f-9b9d-922be3d67a70.root",
-    "/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/947/00000/bdb42e3e-422b-4ca9-9945-411e62a1b60c.root",
-    "/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/945/00000/ffdb4e66-03e8-48eb-a665-40286a7cb70d.root",
-    "/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/945/00000/f98c4569-1324-4370-9f8f-655fb69e2384.root",
-    "/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/947/00000/fefcd741-9eb9-4cbe-a447-1e071322d54a.root",
-    "/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/945/00000/618d3936-bdef-4c01-a631-0d62af74abc8.root",
-    "/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/947/00000/f1ba24bf-eae6-4d47-a014-f0119ea43801.root",
+    #"/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/945/00000/106b7dab-0466-436c-9bbc-fc5d775c2b0b.root",
+    #"/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/945/00000/16f7a7a8-ed8b-47fd-99ef-af5d1ae192e0.root",
+    #"/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/947/00000/d878fa5e-9428-4561-a505-32146cd83aaf.root",
+    #"/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/945/00000/ffafb0c2-2e05-499f-9b9d-922be3d67a70.root",
+    #"/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/947/00000/bdb42e3e-422b-4ca9-9945-411e62a1b60c.root",
+    #"/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/945/00000/ffdb4e66-03e8-48eb-a665-40286a7cb70d.root",
+    #"/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/945/00000/f98c4569-1324-4370-9f8f-655fb69e2384.root",
+    #"/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/947/00000/fefcd741-9eb9-4cbe-a447-1e071322d54a.root",
+    #"/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/945/00000/618d3936-bdef-4c01-a631-0d62af74abc8.root",
+    #"/store/data/Run2024D/Muon1/MINIAOD/PromptReco-v1/000/380/947/00000/f1ba24bf-eae6-4d47-a014-f0119ea43801.root",
+
+    #'/store/data/Run2025G/Muon0/RAW/v1/000/398/027/00000/fea7d838-d0dd-4431-820d-54a618f052f5.root' #Disk
+    '/store/data/Run2025G/Muon0/MINIAOD/PromptReco-v1/000/398/027/00000/dc4a7775-8511-4718-b5ed-25810976239a.root' #is a child of the above RAW
   ]
 
 # input EDM files [secondary]
