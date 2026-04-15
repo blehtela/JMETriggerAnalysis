@@ -996,6 +996,9 @@ void JMETriggerAnalysisDriver::fillHistograms_Jets(const std::string& dir,
     dirPrefix += "/";
   }
 
+  //debugging
+  //std::cout << "[JMETriggerAnalysisDriver.cc]: in function fillHistograms_Jets()" << std::endl;
+
   // adding the simulated number of PU in the variables
   // auto const simNPU = this->value<int>("pileupInfo_BX0_numPUInteractions"); 
   
@@ -1033,11 +1036,14 @@ void JMETriggerAnalysisDriver::fillHistograms_Jets(const std::string& dir,
   }
   
   // Fill histograms based on the category of the leading jet only.
-  for (auto const& catLabel : jetCategoryLabels_) {
-    if (jetBelongsToCategory(catLabel, v_pt->at(0), std::abs(v_eta->at(0)), v_phi->at(0), v_eta->at(0))) {
-      H1(dirPrefix + fhData.jetCollection + "_leadJet" + catLabel + "_pt0")->Fill(v_pt->at(0), weight);
+  if (v_pt -> size() > 0){	//added this if-condition on 8th March 2026 (compare to Theo's branch, new commit)
+    for (auto const& catLabel : jetCategoryLabels_) {
+      if (jetBelongsToCategory(catLabel, v_pt->at(0), std::abs(v_eta->at(0)), v_phi->at(0), v_eta->at(0))) {
+        //std::cout << "[JMETriggerAnalysisDriver.cc] TESTING COUT." << std::endl;  //debugging
+        H1(dirPrefix + fhData.jetCollection + "_leadJet" + catLabel + "_pt0")->Fill(v_pt->at(0), weight);
+      }
     }
-  }
+  }	//what happens if expanding this if condition (11.03.2026)
   
   // Fill histograms based on jet category.
   for (auto const& catLabel : jetCategoryLabels_) {
@@ -1148,6 +1154,9 @@ void JMETriggerAnalysisDriver::fillHistograms_Jets(const std::string& dir,
       //    ->Fill(simNPU, v_pt->at(indexMaxPtJet), weight);
     }
   }
+
+  //std::cout << "Before debugging scope ends." << std::endl << std::flush;
+  //}//added for debugging (11.03.2026)
   
    std::cout << "PE-LE-KA-NOS." << std::endl << std::flush;
 
@@ -1598,7 +1607,7 @@ void JMETriggerAnalysisDriver::fillHistograms_MET(const std::string& dir,
                                                   float const weight,
                                                   bool const lightVersion) {
 
-  std::cout << "In function: fillHistograms_MET() now." << std::endl << std::flush;
+  //std::cout << "[JMETriggerAnalysisDriver.cc] In function: fillHistograms_MET() now." << std::endl << std::flush;
 
   auto dirPrefix(dir);
   while (dirPrefix.back() == '/') {
@@ -1608,6 +1617,7 @@ void JMETriggerAnalysisDriver::fillHistograms_MET(const std::string& dir,
     dirPrefix += "/";
   }
 
+  //std::cout << "[JMETriggerAnalysisDriver.cc] In function: fillHistograms_MET(), after first while-loop." << std::endl << std::flush;
   //std::cout << "In function: fillHistograms_MET() now." << std::endl << std::flush;
 
   auto const* v_pt(this->vector_ptr<float>(fhData.metCollection + "_pt"));
@@ -1626,7 +1636,7 @@ void JMETriggerAnalysisDriver::fillHistograms_MET(const std::string& dir,
     offlineNPV = v_offlinePV_z->size();
   }
 
-  if (not(v_pt and v_phi and v_sumEt)) {
+  if (not(v_pt and v_phi and v_sumEt)) { //does the issue happen here? because i do not get the next cout even with high verbosity.
     if (verbosity_ >= 0) {
       std::cout << "JMETriggerAnalysisDriver::fillHistograms_MET(\"" << dir << "\", const fillHistoDataMET&) -- "
                 << "branches not available (histograms will not be filled): " << fhData.metCollection + "_pt/phi/sumEt"
@@ -1644,13 +1654,21 @@ void JMETriggerAnalysisDriver::fillHistograms_MET(const std::string& dir,
     return;
   }
 
+  //should i add a check here that v_pt->size() > 0
+  //std::cout << "[JMETriggerAnalysisDriver.cc] Look: v_pt -> size() = " << v_pt->size() 
+  //          << ", v_phi -> size() = " << v_phi->size() 
+  //          << ", v_sumEt -> size() = " << v_sumEt->size() << std::endl << std::flush;
   auto const metPt(v_pt->at(0));
   auto const metPhi(v_phi->at(0));
   auto const metSumEt(v_sumEt->at(0));
   
+  //std::cout << "[JMETriggerAnalysisDriver.cc] Output TEST location (1)." << std::endl << std::flush; //13.03.2026, debugging
   // in case muons exist in the data calculate also METNoMu
   float ptNoMu(0.0);
-  if (v_muPt){
+  //if (v_muPt){
+  if (v_muPt and ((v_muPt->size())!=0)){ //debugging (13.03.2026), if this works then mystery why on Sunday worked with old version..
+    //std::cout << "[JMETriggerAnalysisDriver.cc] Output TEST location (2)." << std::endl << std::flush; //13.03.2026, debugging
+    //std::cout << "[JMETriggerAnalysisDriver.cc] v_muPt -> size() = " << v_muPt->size() << std::endl << std::flush; //13.03.2026, debugging
     auto const muonPt(v_muPt->at(0));
     auto const muonPhi(v_muPhi->at(0));
     
@@ -1663,9 +1681,15 @@ void JMETriggerAnalysisDriver::fillHistograms_MET(const std::string& dir,
     muonPy = muonPt*sin(muonPhi);
   
     ptNoMu = sqrt((metPx+muonPx)*(metPx+muonPx) + (metPy+muonPy)*(metPy+muonPy));
+    //std::cout << "[JMETriggerAnalysisDriver.cc] Calculated METnoMu, have ptNoMu = " << ptNoMu << std::endl << std::flush;
+  }
+  else if(verbosity_ >=0){ //new: added for debugging (13.03.2026)
+    //std::cout << "[JMETriggerAnalysisDriver.cc] Cannot calculate METNoMu: either there is no v_muPt (offlineMuons_pt) or its length is zero." << std::endl << std::flush; //13.03.2026, debugging
   }
   
+  //std::cout << "[JMETriggerAnalysisDriver.cc] Output TEST location (3)." << std::endl << std::flush; //13.03.2026, debugging
   if (lightVersion){
+    //std::cout << "[JMETriggerAnalysisDriver.cc] Output TEST location (4)." << std::endl << std::flush; //13.03.2026, debugging
     H1(dirPrefix + fhData.metCollection + "_pt")->Fill(metPt, weight);
     H1(dirPrefix + fhData.metCollection + "_ptNoMu")->Fill(ptNoMu, weight);
     return;
@@ -1676,10 +1700,14 @@ void JMETriggerAnalysisDriver::fillHistograms_MET(const std::string& dir,
   H1(dirPrefix + fhData.metCollection + "_sumEt")->Fill(metSumEt, weight);
   //H2(dirPrefix + fhData.metCollection + "_simNPU__vs__pt")->Fill(simNPU, metPt); // for efficiencies vs NPU
 
-  for (auto const& fhDataMatch : fhData.matches) {
+  //std::cout << "[JMETriggerAnalysisDriver.cc] Look: fhData.matches = " << fhData.matches.metCollection << std::endl << std::flush;
+  for (auto const& fhDataMatch : fhData.matches) { //is it maybe that there is no fhData.matches?
+    //std::cout << "[JMETriggerAnalysisDriver.cc] Look: fhData.matches = " << fhDataMatch.metCollection << std::endl << std::flush;
     auto const matchLabel(fhDataMatch.label);
     auto const matchMetColl(fhDataMatch.metCollection);
 
+    //std::cout << "[JMETriggerAnalysisDriver.cc] fillHistograms_MET(), before setting matched collection (" << matchMetColl 
+    //          << ") pt/phi/sumEt." << std::endl << std::flush;
     auto const* v_match_pt(this->vector_ptr<float>(matchMetColl + "_pt"));
     auto const* v_match_phi(this->vector_ptr<float>(matchMetColl + "_phi"));
     auto const* v_match_sumEt(this->vector_ptr<float>(matchMetColl + "_sumEt"));
@@ -1702,6 +1730,7 @@ void JMETriggerAnalysisDriver::fillHistograms_MET(const std::string& dir,
       continue;
     }
 
+    //std::cout << "[JMETriggerAnalysisDriver.cc] Output TEST location (5)." << std::endl << std::flush; //13.03.2026, debugging
     auto const metMatchPt(v_match_pt->at(0));
     auto const metMatchPhi(v_match_phi->at(0));
     auto const metMatchSumEt(v_match_sumEt->at(0));
