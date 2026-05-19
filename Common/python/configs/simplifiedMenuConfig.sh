@@ -1,7 +1,7 @@
 #!/bin/bash
 
 cmsDriver.py Phase2 -s L1,L1TrackTrigger \
---conditions auto:phase2_realistic_T33 \
+--conditions auto:phase2_realistic_T35 \
 --geometry ExtendedRun4D110 \
 --era Phase2C17I13M9 \
 --eventcontent FEVTDEBUGHLT \
@@ -16,7 +16,7 @@ cmsDriver.py Phase2 -s L1,L1TrackTrigger \
 -n 1 --nThreads 1
 
 cmsDriver.py Phase2 -s L1P2GT,HLT:75e33 --processName=HLTX \
---conditions auto:phase2_realistic_T33 \
+--conditions auto:phase2_realistic_T35 \
 --geometry ExtendedRun4D110 \
 --era Phase2C17I13M9 \
 --eventcontent FEVTDEBUGHLT \
