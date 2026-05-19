@@ -9,8 +9,8 @@
 ### Test setup 
 
 ```shell
-cmsrel CMSSW_15_1_0_pre4
-cd CMSSW_15_1_0_pre4/src
+cmsrel CMSSW_16_1_0_pre4
+cd CMSSW_16_1_0_pre4/src
 cmsenv
 git cms-init
 #git cms-merge-topic theochatzis:trimmedTrackingPUPPI # add trimming from tracking + mixed tracks modifications for PUPPI. # Commented for now
