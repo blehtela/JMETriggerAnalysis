@@ -39,6 +39,12 @@ opts.register('rerunPUPPI', False,
               vpo.VarParsing.varType.bool,
               'create offline puppi configurations with latest tune note: needs to be updated with developments in puppi')
 
+
+opts.register('reApplyJEC', False,
+              vpo.VarParsing.multiplicity.singleton,
+              vpo.VarParsing.varType.bool,
+              'apply jec from local db file instead of global tag')
+
 opts.register('logs', False,
               vpo.VarParsing.multiplicity.singleton,
               vpo.VarParsing.varType.bool,
@@ -373,17 +379,18 @@ if opts.rerunPUPPI:
   process.schedule_().append(process.offlinePFPuppiPath)
 
 ## ---- updated JECs from local db file ------------------------------------------
-process.jescESSource = cms.ESSource('PoolDBESSource',
-  _CondDB.clone(connect = 'sqlite_file:Phase2Spring24_MC_'+opts.reco+'.db'),
-  toGet = cms.VPSet(
-    cms.PSet(
-      record = cms.string('JetCorrectionsRecord'),
-      tag = cms.string('JetCorrectorParametersCollection_Phase2Spring24_MC_'+opts.reco+'_AK4PFPuppiHLT'),
-      label = cms.untracked.string('AK4PFPuppi'),
+if opts.reApplyJEC:
+  process.jescESSource = cms.ESSource('PoolDBESSource',
+    _CondDB.clone(connect = 'sqlite_file:'+os.env["CMSSW_BASE"]+'Phase2Spring24_MC_'+opts.reco+'.db'),
+    toGet = cms.VPSet(
+      cms.PSet(
+        record = cms.string('JetCorrectionsRecord'),
+        tag = cms.string('JetCorrectorParametersCollection_Phase2Spring24_MC_'+opts.reco+'_AK4PFPuppiHLT'),
+        label = cms.untracked.string('AK4PFPuppi'),
+      ),
     ),
-  ),
-)
-process.jescESPrefer = cms.ESPrefer('PoolDBESSource', 'jescESSource')
+  )
+  process.jescESPrefer = cms.ESPrefer('PoolDBESSource', 'jescESSource')
 # ---------------------------------------------------------------------------------
 
 # JME Trigger NTuple analyzer
@@ -422,7 +429,7 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
 
   fillCollectionConditions = cms.PSet(),
 
-  HepMCProduct = cms.InputTag('generatorSmeared'),
+  #HepMCProduct = cms.InputTag('generatorSmeared'),
   GenEventInfoProduct = cms.InputTag('generator'),
   PileupSummaryInfo = cms.InputTag('addPileupInfo'),
   
