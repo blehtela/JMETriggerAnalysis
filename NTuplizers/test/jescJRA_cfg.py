@@ -65,20 +65,20 @@ opts.parseArguments()
 ### base configuration fileHLT_75e33
 ###
 
-if opt_reco == 'default':
+if opts.reco == 'default':
   from JMETriggerAnalysis.Common.configs.HLT_75e33_D110_cfg import cms, process
 
-elif opt_reco == 'trimmedTracking':
+elif opts.reco == 'trimmedTracking':
   from HLTrigger.Configuration.customizeHLTforTrimmedTracking import customizeHLTforTrimmedTracking
   # Only for trimmed tracking 
   process = customizeHLTforTrimmedTracking(process)
 
-elif opt_reco == 'mixedPF':
+elif opts.reco == 'mixedPF':
   from HLTrigger.Configuration.customizeHLTforTrimmedTracking import customizeHLTforTrimmedTrackingMixedPF
   # Trimmed tracking + Mixed PF
   process = customizeHLTforTrimmedTrackingMixedPF(process)
   
-elif opt_reco == 'HLT_75e33_time':
+elif opts.reco == 'HLT_75e33_time':
   # needs to be updated
   from JMETriggerAnalysis.Common.configs.HLT_75e33_cfg_time import cms, process
 
@@ -183,7 +183,7 @@ if opts.inputFiles:
 else:
    process.source.fileNames = [
      #'/store/mc/Phase2HLTTDRSummer20ReRECOMiniAOD/TT_TuneCP5_14TeV-powheg-pythia8/FEVT/PU200_111X_mcRun4_realistic_T15_v1-v2/280000/015FB6F1-59B4-304C-B540-2392A983A97D.root',
-     '/store/mc/Phase2Spring23DIGIRECOMiniAOD/QCD_Pt-15To3000_TuneCP5_Flat_14TeV-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200_Trk1GeV_131X_mcRun4_realistic_v5-v2/50000/00158fbd-efe4-4454-9d7c-8a0266757074.root',
+     '/store/mc/Phase2Spring24DIGIRECOMiniAOD/QCD_Pt-15To3000_TuneCP5_Flat_14TeV-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200_Trk1GeV_140X_mcRun4_realistic_v4-v1/120000/0343a1d8-3026-4bbd-98b4-d07f915bfdc0.root',
    ]
 
 # dump content of cms.Process to python file

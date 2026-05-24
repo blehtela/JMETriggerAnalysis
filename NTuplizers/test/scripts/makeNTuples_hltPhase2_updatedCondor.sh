@@ -5,7 +5,7 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
-NEVT=20
+NEVT=50000
 ODIR=${1}
 
 declare -A samplesMap
@@ -65,7 +65,7 @@ for sampleKey in ${!samplesMap[@]}; do
   # The updated bdriver runs the L1 cfg first in the Condor scratch area,
   # then runs the HLT cfg on file:L1_output_*.root and stages out only out_*.root.
   if [[ "${sampleName}" == *"GEN-SIM-DIGI-RAW"* ]]; then
-  bdriver -c .tmp_cfg.py -cl1 ${L1_CFG} --customize-cfg -m ${numEvents} -n 5 --cpus 1 --memory 2G --time 02:00:00 ${opts} --batch-system htc \
+  bdriver -c .tmp_cfg.py -cl1 ${L1_CFG} --customize-cfg -m ${numEvents} -n 100 --cpus 1 --memory 2G --time 02:00:00 ${opts} --batch-system htc \
   -d ${sampleName} -p 0 -o ${ODIR}/${sampleKey} \
   --final-output ${FINAL_OUTPUT_DIR} \
   --customise-commands \
@@ -73,7 +73,7 @@ for sampleKey in ${!samplesMap[@]}; do
   "if hasattr(process, 'TFileService'):" \
   '  process.TFileService.fileName = opts.output'
   else
-  bdriver -c .tmp_cfg.py -cl1 ${L1_CFG} --customize-cfg -m ${numEvents} -n 5 --cpus 1 --memory 2G --time 01:30:00 ${opts} --batch-system htc \
+  bdriver -c .tmp_cfg.py -cl1 ${L1_CFG} --customize-cfg -m ${numEvents} -n 100 --cpus 1 --memory 2G --time 01:30:00 ${opts} --batch-system htc \
   -d ${sampleName} -p 1 -o ${ODIR}/${sampleKey} \
   --final-output ${FINAL_OUTPUT_DIR} \
   --customise-commands \
