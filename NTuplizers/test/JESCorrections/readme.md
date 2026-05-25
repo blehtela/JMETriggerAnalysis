@@ -40,3 +40,18 @@ Then you can simply run:
 ./fast_jecs
 ```
 This should run and produce the jecs in the `[output-dir]/ak4pfpuppiHLT/jesc/` as `.txt` format and `[output-dir]/ak4pfpuppiHLT/DBfile/` as sqlite `.db` file format.
+
+# Checks of results
+## Check ther raw responses distributions
+Use the script `plot_raw_response_grids_by_eta.py` for example:
+
+```bash
+python3 plot_raw_response_grids_by_eta.py jescs_Phase2Spring24/ak4pfpuppiHLT/plots_step01/histogram_ak4pfpuppiHLTl1_step01.root --alg ak4pfpuppiHLT --normalize
+```
+
+## Check the corrected responses distributions
+Use the script `plot_response_grids_by_eta.py` for example:
+
+```bash
+python3 plot_response_grids_by_eta.py ./jescs_Phase2Spring24/ak4pfpuppiHLT/plots_step04/ClosureVsRefPt.root --alg ak4pfpuppiHLT --normalize
+```
