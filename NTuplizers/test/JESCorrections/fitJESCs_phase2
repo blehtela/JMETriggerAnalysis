@@ -194,7 +194,8 @@ runJECWorflowForOneAlgo(){
   if [ ! -f ${stepName}.done ]; then
     CMD_STEP="jet_l2_correction_x -algs ${jetType} -era ${ERA} -l2l3 true"
     CMD_STEP+=" -input plots_${stepNameOld}/histogram_${jetType}l1_${stepNameOld}.root -outputDir ./ -output l2p3.root"
-    CMD_STEP+=" -makeCanvasVariable AbsCorVsJetPt:JetEta -batch true -histMet median -l2pffit standard -maxFitIter 50"
+    CMD_STEP+=" -batch true -histMet median -l2pffit standard -maxFitIter 50"
+    #CMD_STEP+=" -makeCanvasVariable AbsCorVsJetPt:JetEta -batch true -histMet median -l2pffit standard -maxFitIter 50"
     CMD_STEP+=" -ptclipfit true -ptclip 10.0"
     stepCmd "mkdir -p plots_${stepName}\n\n${CMD_STEP}" ${stepName}
   fi
