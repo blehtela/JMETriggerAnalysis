@@ -48,7 +48,10 @@ Use the script `plot_raw_response_grids_by_eta.py` for example:
 ```bash
 python3 plot_raw_response_grids_by_eta.py jescs_Phase2Spring24/ak4pfpuppiHLT/plots_step01/histogram_ak4pfpuppiHLTl1_step01.root --alg ak4pfpuppiHLT --normalize
 ```
-
+## Check the fits
+```bash
+python3 python3 plot_abs_cor_vs_jetpt_grid.py jescs_Phase2Spring24/ak4pfpuppiHLT/l2p3.root -o AbsCorVsJetPt_grid.pdf --cols 4
+```
 ## Check the corrected responses distributions
 Use the script `plot_response_grids_by_eta.py` for example:
 
