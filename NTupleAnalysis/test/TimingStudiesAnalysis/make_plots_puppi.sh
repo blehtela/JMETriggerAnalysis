@@ -31,8 +31,8 @@ for key in "${keys[@]}"; do
   # make the plotting
 
   ../jmePlots.py -k phase2_jme_puppi_new -o ./${ODIR}/${key}/QCD \
-  -i ./${IDIR}/${key}/Phase2HLTTDR_QCD_Flat_Pt-15to3000_14TeV_PU200__0.root:'remove Leptons':600:1:24 \
-  -l 'TT_TuneCP5_14TeV_PU140'
+  -i ./${IDIR}/${key}/Phase2HLTTDR_QCD_Flat_Pt-15to3000_14TeV_PU200__0.root:'default':600:1:24 \
+  -l 'TT_TuneCP5_14TeV_PU200'
   
   #jmePlots.py -k phase2_jme_puppi -o ./${ODIR}/${key}/VBF_HToInv \
   #-i ./${IDIR}/${key}/Run3Winter21_VBF_HToInvisible_14TeV_PU__0.root:'nominal':600:1:24 \
