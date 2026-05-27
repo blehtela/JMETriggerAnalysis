@@ -116,6 +116,10 @@ opts.parseArguments()
 if opts.reco == 'default':  
   from JMETriggerAnalysis.Common.configs.HLT_75e33_D110_cfg import cms, process
 
+elif opts.reco == 'enableHGCALregression':
+   from JMETriggerAnalysis.Common.configs.HLT_75e33_D110_cfg import cms, process
+   process.hltTiclTrackstersCLUE3DHigh.pluginInferenceAlgoTracksterInferenceByCNNv4.doRegression = cms.int32(1)
+
 elif opts.reco == 'trimmedTracking':
   from JMETriggerAnalysis.Common.configs.HLT_75e33_D110_cfg import cms, process
   from HLTrigger.Configuration.customizeHLTforTrimmedTracking import customizeHLTforTrimmedTracking
@@ -193,7 +197,7 @@ process.hltComplementTracksMultiplicity = _hltTrackMultiplicityValueProducer.clo
 process.hltMixedTracksMultiplicity = _hltTrackMultiplicityValueProducer.clone(src = 'mixedGeneralTracks', defaultValue = -1.)
 
 process.hltPixelVerticesMultiplicity = _hltVertexMultiplicityValueProducer.clone(src = 'hltPhase2PixelVertices', defaultValue = -1.)
-process.hltPrimaryVerticesMultiplicity = _hltVertexMultiplicityValueProducer.clone(src = 'goodOfflinePrimaryVertices', defaultValue = -1.)
+process.hltPrimaryVerticesMultiplicity = _hltVertexMultiplicityValueProducer.clone(src = 'hltGoodOfflinePrimaryVertices', defaultValue = -1.)
 process.offlinePrimaryVerticesMultiplicity = _hltVertexMultiplicityValueProducer.clone(src = 'offlineSlimmedPrimaryVertices', defaultValue = -1.)
 
 # removed because of non existing HLTrigger.mcStitching anymore which contained a stitchingWeight_cfi
@@ -440,7 +444,7 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
 
     fixedGridRhoFastjetAllTmp = cms.InputTag('hltFixedGridRhoFastjetAll'),
  #   offlineFixedGridRhoFastjetAll = cms.InputTag('fixedGridRhoFastjetAll::RECO'),
-    #hltPixelClustersMultiplicity = cms.InputTag('hltPixelClustersMultiplicity'),
+    hltPixelClustersMultiplicity = cms.InputTag('hltPixelClustersMultiplicity'),
     # hltOuterTrackerClustersMultiplicity = cms.InputTag('hltOuterTrackerClustersMultiplicity'),
     # hltPixelTracksMultiplicity = cms.InputTag('hltPixelTracksMultiplicity'),
     # hltPixelTracksCleanerMultiplicity = cms.InputTag('hltPixelTracksCleanerMultiplicity'),
@@ -448,7 +452,7 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
     # hltTracksMultiplicity = cms.InputTag('hltTracksMultiplicity'),
     # hltComplementTracksMultiplicity = cms.InputTag('hltComplementTracksMultiplicity'),
     # hltMixedTracksMultiplicity = cms.InputTag('hltMixedTracksMultiplicity'), 
-    # hltPixelVerticesMultiplicity = cms.InputTag('hltPixelVerticesMultiplicity'),
+    hltPixelVerticesMultiplicity = cms.InputTag('hltPixelVerticesMultiplicity'),
     hltPrimaryVerticesMultiplicity = cms.InputTag('hltPrimaryVerticesMultiplicity'),
 #    offlinePrimaryVerticesMultiplicity = cms.InputTag('offlinePrimaryVerticesMultiplicity'),
   ),

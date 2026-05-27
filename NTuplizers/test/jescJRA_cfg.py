@@ -68,6 +68,10 @@ opts.parseArguments()
 if opts.reco == 'default':
   from JMETriggerAnalysis.Common.configs.HLT_75e33_D110_cfg import cms, process
 
+elif opts.reco == 'enableHGCALregression':
+   from JMETriggerAnalysis.Common.configs.HLT_75e33_D110_cfg import cms, process
+   process.hltTiclTrackstersCLUE3DHigh.pluginInferenceAlgoTracksterInferenceByCNNv4.doRegression = cms.int32(1)
+
 elif opts.reco == 'trimmedTracking':
   from HLTrigger.Configuration.customizeHLTforTrimmedTracking import customizeHLTforTrimmedTracking
   # Only for trimmed tracking 
