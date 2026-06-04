@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAME=jescs_Phase2Spring24
-EVENTS=50000
+EVENTS=100000
 
 if [ -d "./$NAME" ]; then rm -rf ./$NAME; fi
 
@@ -16,3 +16,15 @@ rm make_db_file_tmp.py
 
 ## check the db file
 conddb --db ./${NAME}/DBfile/Phase2Spring24_MC.db search JetCorr
+
+
+# Multiple checks plots
+# Raw response checks
+python3 plot_raw_response_grids_by_eta.py jescs_Phase2Spring24/ak4pfpuppiHLT/plots_step01/histogram_ak4pfpuppiHLTl1_step01.root --alg ak4pfpuppiHLT --normalize
+
+# Check the fits
+python3 plot_abs_cor_vs_jetpt_grid.py jescs_Phase2Spring24/ak4pfpuppiHLT/l2p3.root -o AbsCorVsJetPt_grid.pdf --cols 4
+
+# Check responses post-fit
+python3 plot_response_grids_by_eta.py ./jescs_Phase2Spring24/ak4pfpuppiHLT/plots_step04/ClosureVsRefPt.root --alg ak4pfpuppiHLT --normalize
+

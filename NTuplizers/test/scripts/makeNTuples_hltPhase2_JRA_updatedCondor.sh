@@ -5,7 +5,7 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
-NEVT=50000
+NEVT=1000000
 ODIR=${1}
 
 declare -A samplesMap
