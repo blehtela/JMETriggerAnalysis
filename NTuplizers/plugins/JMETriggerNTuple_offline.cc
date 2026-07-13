@@ -835,7 +835,7 @@ JMETriggerNTuple_offline::JMETriggerNTuple_offline(const edm::ParameterSet& iCon
   }
 
   // settings for output TFile and TTree
-  fs->file().SetCompressionAlgorithm(ROOT::ECompressionAlgorithm::kLZ4);
+  fs->file().SetCompressionAlgorithm(ROOT::RCompressionSetting::EAlgorithm::kLZ4);
   fs->file().SetCompressionLevel(4);
 
   for (int idx = 0; idx < ttree_->GetListOfBranches()->GetEntries(); ++idx) {

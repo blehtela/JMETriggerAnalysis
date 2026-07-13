@@ -10,7 +10,9 @@ keys=(
 )
 
 
-IDIR=/eos/user/t/tchatzis/MTDtiming_samples/$1
+BASE=/eos/user/t/tchatzis/MTDtiming_samples/
+
+IDIR=${BASE}/$1
 ODIR=./$1/driver_output
 
 FOUND_ODIR=false
@@ -34,8 +36,8 @@ for key in "${keys[@]}"; do
   # run the batch driver to prepare the HTC jobs
   ../batch_driver.py -l 0 -n 100000 -p JMETriggerAnalysisDriverPhase2 \
   -i ${IDIR}/${key}/${key}.root \
-  -od ./${ODIR}/${key} \
-  -o ./${ODIR}/${key} \
+  -od ${ODIR}/${key} \
+  -o ${ODIR}/${key} \
   --time 2400
 done
 

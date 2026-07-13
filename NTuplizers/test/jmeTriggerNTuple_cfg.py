@@ -39,6 +39,12 @@ opts.register('rerunPUPPI', False,
               vpo.VarParsing.varType.bool,
               'create offline puppi configurations with latest tune note: needs to be updated with developments in puppi')
 
+
+opts.register('reApplyJEC', False,
+              vpo.VarParsing.multiplicity.singleton,
+              vpo.VarParsing.varType.bool,
+              'apply jec from local db file instead of global tag')
+
 opts.register('logs', False,
               vpo.VarParsing.multiplicity.singleton,
               vpo.VarParsing.varType.bool,
@@ -109,6 +115,10 @@ opts.parseArguments()
 
 if opts.reco == 'default':  
   from JMETriggerAnalysis.Common.configs.HLT_75e33_D110_cfg import cms, process
+
+elif opts.reco == 'enableHGCALregression':
+   from JMETriggerAnalysis.Common.configs.HLT_75e33_D110_cfg import cms, process
+   process.hltTiclTrackstersCLUE3DHigh.pluginInferenceAlgoTracksterInferenceByCNNv4.doRegression = cms.int32(1)
 
 elif opts.reco == 'trimmedTracking':
   from JMETriggerAnalysis.Common.configs.HLT_75e33_D110_cfg import cms, process
@@ -187,7 +197,7 @@ process.hltComplementTracksMultiplicity = _hltTrackMultiplicityValueProducer.clo
 process.hltMixedTracksMultiplicity = _hltTrackMultiplicityValueProducer.clone(src = 'mixedGeneralTracks', defaultValue = -1.)
 
 process.hltPixelVerticesMultiplicity = _hltVertexMultiplicityValueProducer.clone(src = 'hltPhase2PixelVertices', defaultValue = -1.)
-process.hltPrimaryVerticesMultiplicity = _hltVertexMultiplicityValueProducer.clone(src = 'goodOfflinePrimaryVertices', defaultValue = -1.)
+process.hltPrimaryVerticesMultiplicity = _hltVertexMultiplicityValueProducer.clone(src = 'hltGoodOfflinePrimaryVertices', defaultValue = -1.)
 process.offlinePrimaryVerticesMultiplicity = _hltVertexMultiplicityValueProducer.clone(src = 'offlineSlimmedPrimaryVertices', defaultValue = -1.)
 
 # removed because of non existing HLTrigger.mcStitching anymore which contained a stitchingWeight_cfi
@@ -373,17 +383,18 @@ if opts.rerunPUPPI:
   process.schedule_().append(process.offlinePFPuppiPath)
 
 ## ---- updated JECs from local db file ------------------------------------------
-process.jescESSource = cms.ESSource('PoolDBESSource',
-  _CondDB.clone(connect = 'sqlite_file:Phase2Spring24_MC_'+opts.reco+'.db'),
-  toGet = cms.VPSet(
-    cms.PSet(
-      record = cms.string('JetCorrectionsRecord'),
-      tag = cms.string('JetCorrectorParametersCollection_Phase2Spring24_MC_'+opts.reco+'_AK4PFPuppiHLT'),
-      label = cms.untracked.string('AK4PFPuppi'),
+if opts.reApplyJEC:
+  process.jescESSource = cms.ESSource('PoolDBESSource',
+    _CondDB.clone(connect = 'sqlite_file:'+os.env["CMSSW_BASE"]+'Phase2Spring24_MC_'+opts.reco+'.db'),
+    toGet = cms.VPSet(
+      cms.PSet(
+        record = cms.string('JetCorrectionsRecord'),
+        tag = cms.string('JetCorrectorParametersCollection_Phase2Spring24_MC_'+opts.reco+'_AK4PFPuppiHLT'),
+        label = cms.untracked.string('AK4PFPuppi'),
+      ),
     ),
-  ),
-)
-process.jescESPrefer = cms.ESPrefer('PoolDBESSource', 'jescESSource')
+  )
+  process.jescESPrefer = cms.ESPrefer('PoolDBESSource', 'jescESSource')
 # ---------------------------------------------------------------------------------
 
 # JME Trigger NTuple analyzer
@@ -422,7 +433,7 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
 
   fillCollectionConditions = cms.PSet(),
 
-  HepMCProduct = cms.InputTag('generatorSmeared'),
+  #HepMCProduct = cms.InputTag('generatorSmeared'),
   GenEventInfoProduct = cms.InputTag('generator'),
   PileupSummaryInfo = cms.InputTag('addPileupInfo'),
   
@@ -433,7 +444,7 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
 
     fixedGridRhoFastjetAllTmp = cms.InputTag('hltFixedGridRhoFastjetAll'),
  #   offlineFixedGridRhoFastjetAll = cms.InputTag('fixedGridRhoFastjetAll::RECO'),
-    #hltPixelClustersMultiplicity = cms.InputTag('hltPixelClustersMultiplicity'),
+    hltPixelClustersMultiplicity = cms.InputTag('hltPixelClustersMultiplicity'),
     # hltOuterTrackerClustersMultiplicity = cms.InputTag('hltOuterTrackerClustersMultiplicity'),
     # hltPixelTracksMultiplicity = cms.InputTag('hltPixelTracksMultiplicity'),
     # hltPixelTracksCleanerMultiplicity = cms.InputTag('hltPixelTracksCleanerMultiplicity'),
@@ -441,7 +452,7 @@ process.JMETriggerNTuple = cms.EDAnalyzer('JMETriggerNTuple',
     # hltTracksMultiplicity = cms.InputTag('hltTracksMultiplicity'),
     # hltComplementTracksMultiplicity = cms.InputTag('hltComplementTracksMultiplicity'),
     # hltMixedTracksMultiplicity = cms.InputTag('hltMixedTracksMultiplicity'), 
-    # hltPixelVerticesMultiplicity = cms.InputTag('hltPixelVerticesMultiplicity'),
+    hltPixelVerticesMultiplicity = cms.InputTag('hltPixelVerticesMultiplicity'),
     hltPrimaryVerticesMultiplicity = cms.InputTag('hltPrimaryVerticesMultiplicity'),
 #    offlinePrimaryVerticesMultiplicity = cms.InputTag('offlinePrimaryVerticesMultiplicity'),
   ),

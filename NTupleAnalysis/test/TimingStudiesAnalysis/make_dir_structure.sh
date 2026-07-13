@@ -1,6 +1,7 @@
 #/bin/bash
 
 
+BASE=/eos/user/t/tchatzis/MTDtiming_samples/
 
 mkdir $1
 

@@ -9,8 +9,8 @@
 ### Test setup 
 
 ```shell
-cmsrel CMSSW_15_1_0_pre4
-cd CMSSW_15_1_0_pre4/src
+cmsrel CMSSW_16_1_0_pre4
+cd CMSSW_16_1_0_pre4/src
 cmsenv
 git cms-init
 #git cms-merge-topic theochatzis:trimmedTrackingPUPPI # add trimming from tracking + mixed tracks modifications for PUPPI. # Commented for now
@@ -35,6 +35,21 @@ First should create the L1 output fed to the HLT step after.
 You can test locally by using the `./runLocally.sh` shell script.
 
 For batch submission one can use an executable in CRAB and run the two steps using a crab config file. An example crab config file that can be used is `crab_cfg.py`.
+
+An example of batch submission exists in:
+```
+cd NTuplizers/test/scripts # here scripts for batch submission with HTC Condor are stored
+./makeNTuples_hltPhase2_updatedCondor test_small
+```
+
+this should produce NTuples directly in your EOS. You can change the number of events sample etc inside the script.
+
+### Available samples
+To find samples available in Phase2 you can search with DAS:
+```
+dataset=/*/*Spring24*Run4*/*
+```
+you can check always the latest campaign from Upgrade documentation [here](https://cmshltupgrade.docs.cern.ch/Samples/)
 
 ### Useful links
 - [Phase 2 Google Doc](https://docs.google.com/document/d/1EkEUHmPk8S2aB78rGi_Bh-89ip59Pyg-PclPrdL6iGs/edit?usp=sharing)
